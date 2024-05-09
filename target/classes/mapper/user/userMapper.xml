@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homeis.user.model.mapper.UserMapper">
+	<select id="login" parameterType="user" resultType="user">
+		select id, name, email, address, birth, point, job, married 
+		from user
+		where id=#{id} and password=#{password}
+	</select>
+	
+	<!-- <select id="findById" parameterType="string" resultType="member">
+		select no, member_id as memberId, member_name as memberName, password, email, mobile, is_admin as isAdmin
+		from member
+		where member_id=#{id}
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		update member set password=#{password}, member_name=#{memberName}, email=#{email}, mobile=#{mobile}
+		where member_id=#{memberId};
+	</update>
+	
+	<insert id="insertLoginTime" parameterType="string">
+		insert into login_history
+		(member_id, login_time)
+		values
+		(#{id}, current_timestamp())
+	</insert>
+	
+	<update id="insertLogoutTime" parameterType="string">
+		update login_history as lh1
+		join (
+		    SELECT member_id, MAX(login_time) AS max_login_time
+		    FROM login_history
+		    WHERE member_id = #{id}
+		    GROUP BY member_id
+		) AS lh2 ON lh1.member_id = lh2.member_id AND lh1.login_time = lh2.max_login_time
+		SET lh1.logout_time = current_timestamp();
+		
+	</update> -->
+</mapper>
