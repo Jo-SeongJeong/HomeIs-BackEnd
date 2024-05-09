@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homeis.board.model.mapper.BoardMapper">
+	<select id="selectAll" resultType="board">
+		select id, user_id, title, content, create_time, view, good 
+		from free_board
+	</select>
+	
+	<select id="findById" parameterType="int" resultType="comment">
+		select id, board_id, user_id, comment, create_time, good 
+		from free_comment
+		where board_id = #{boardId};
+	</select>
+	
+	<insert id="insertBoard" parameterType="board">
+		insert into free_board
+		(user_id, title, content, create_time)
+		values
+		(#{userId}, #{title}, #{content}, now());
+	</insert>
+	
+	<update id="updateBoard" parameterType="board">
+		update free_board set title = #{title}, content = #{content}, create_time = now()
+		where id = #{id}
+		and user_id = #{userId};
+	</update>
+	
+	<delete id="deleteBoard" parameterType="board">
+		delete from free_board
+		where id = #{id}
+		and user_id = #{userId};
+	</delete>
+</mapper>
