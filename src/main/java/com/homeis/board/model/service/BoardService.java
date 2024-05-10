@@ -18,4 +18,10 @@ public interface BoardService {
 		public int updateBoard(Board board);
 		// 글 삭제
 		public int deleteBoard(Board board);
+		// 댓글 등록
+		public int insertComment(Comment comment);
+		// 댓글 수정
+		public int updateComment(Comment comment);
+		// 댓글 삭제
+		public int deleteComment(Comment comment);
 }
