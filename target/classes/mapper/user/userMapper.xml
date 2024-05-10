@@ -32,6 +32,13 @@
 		where id=#{userId}
 	</delete>
 	
+	<select id="getInterestArea" parameterType="string" resultType="dongCode">
+		select dongCode
+		from interest_area
+		where user_id=#{userId}
+	</select>
+	
+	
 	<!--
 	<insert id="insertLoginTime" parameterType="string">
 		insert into login_history

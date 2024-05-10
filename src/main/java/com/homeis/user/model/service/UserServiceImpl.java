@@ -1,7 +1,10 @@
 package com.homeis.user.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.homeis.user.dto.DongCode;
 import com.homeis.user.dto.User;
 import com.homeis.user.model.mapper.UserMapper;
 
@@ -36,5 +39,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int deleteUser(String userId) {
 		return userMapper.deleteUser(userId);
+	}
+
+	@Override
+	public List<DongCode> getInterestArea(String userId) {
+		return userMapper.getInterestArea(userId);
 	}
 }

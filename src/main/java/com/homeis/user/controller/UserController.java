@@ -1,5 +1,7 @@
 package com.homeis.user.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.homeis.user.dto.DongCode;
 import com.homeis.user.dto.User;
 import com.homeis.user.model.service.UserService;
 
@@ -59,11 +62,20 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<Integer> deleteUser(@PathVariable("userId") String userId){
+	public ResponseEntity<Integer> deleteUser(@PathVariable("userId") String userId) {
 		int flag = userService.deleteUser(userId);
 		if (flag == 0) {
 			return ResponseEntity.status(404).body(0);
 		}
 		return ResponseEntity.status(200).body(1);
+	}
+	
+	@GetMapping("/interest-area/{userId}")
+	public ResponseEntity<List<DongCode>> getInterestArea(@PathVariable("userId") String userId) {
+		List<DongCode> interestAreaList = userService.getInterestArea(userId);
+		if (interestAreaList.isEmpty()) {
+			return ResponseEntity.status(404).body(null);
+		}
+		return ResponseEntity.status(200).body(interestAreaList);
 	}
 }
