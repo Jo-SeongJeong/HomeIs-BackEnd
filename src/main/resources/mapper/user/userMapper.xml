@@ -9,17 +9,37 @@
 		where id=#{id} and password=#{password}
 	</select>
 	
-	<!-- <select id="findById" parameterType="string" resultType="member">
-		select no, member_id as memberId, member_name as memberName, password, email, mobile, is_admin as isAdmin
-		from member
-		where member_id=#{id}
+	<insert id="register" parameterType="user">
+		insert into user
+		(id, password, name, email, address, birth, point, job, married)
+		values
+		(#{id}, #{password}, #{name}, #{email}, #{address}, #{birth}, #{point}, #{job}, #{married})		
+	</insert>
+	
+	<select id="idExist" parameterType="string" resultType="user">
+		select id, name, email, address, birth, point, job, married 
+		from user
+		where id=#{userId}
 	</select>
 	
-	<update id="updateMember" parameterType="member">
-		update member set password=#{password}, member_name=#{memberName}, email=#{email}, mobile=#{mobile}
-		where member_id=#{memberId};
+	<update id="updateUserInfo" parameterType="user">
+		update user set password=#{password}, name=#{name}, email=#{email}, address=#{address}, birth=#{birth}, point=#{point}, job=#{job}, married=#{married}
+		where id=#{id};
 	</update>
 	
+	<delete id="deleteUser" parameterType="string">
+		delete from user
+		where id=#{userId}
+	</delete>
+	
+	<select id="getInterestArea" parameterType="string" resultType="dongCode">
+		select dongCode
+		from interest_area
+		where user_id=#{userId}
+	</select>
+	
+	
+	<!--
 	<insert id="insertLoginTime" parameterType="string">
 		insert into login_history
 		(member_id, login_time)
