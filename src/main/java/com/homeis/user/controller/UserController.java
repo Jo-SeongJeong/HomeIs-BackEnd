@@ -1,5 +1,6 @@
 package com.homeis.user.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,20 @@ public class UserController {
 	private final UserService userService;
 	
 	@PostMapping("/login")
-	public User login(@ModelAttribute User loginInfo, HttpSession session) {
+	public ResponseEntity<User> login(@ModelAttribute User loginInfo) {
 		User userInfo = userService.login(loginInfo);
 		if (userInfo == null) {
-			return null;
+			return ResponseEntity.status(404).build();
 		}
-		session.setAttribute("userInfo", userInfo);
-		return userInfo;
+		return ResponseEntity.status(200).body(userInfo);
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<Integer> register(@ModelAttribute User userInfo) {
+		int flag = userService.register(userInfo);
+		if (flag != 1) {
+			return ResponseEntity.status(404).build();
+		}
+		return ResponseEntity.status(200).body(0);
 	}
 }

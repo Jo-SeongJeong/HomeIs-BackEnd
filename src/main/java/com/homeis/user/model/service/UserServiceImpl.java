@@ -18,4 +18,8 @@ public class UserServiceImpl implements UserService {
 		return userMapper.login(loginInfo);
 	}
 
+	@Override
+	public int register(User userInfo) {
+		return userMapper.register(userInfo);
+	}
 }

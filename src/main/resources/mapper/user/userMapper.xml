@@ -9,12 +9,14 @@
 		where id=#{id} and password=#{password}
 	</select>
 	
-	<!-- <select id="findById" parameterType="string" resultType="member">
-		select no, member_id as memberId, member_name as memberName, password, email, mobile, is_admin as isAdmin
-		from member
-		where member_id=#{id}
-	</select>
+	<insert id="register" parameterType="user">
+		insert into user
+		(id, password, name, email, address, birth, point, job, married)
+		values
+		(#{id}, #{password}, #{name}, #{email}, #{address}, #{birth}, #{point}, #{job}, #{married})		
+	</insert>
 	
+	<!--
 	<update id="updateMember" parameterType="member">
 		update member set password=#{password}, member_name=#{memberName}, email=#{email}, mobile=#{mobile}
 		where member_id=#{memberId};

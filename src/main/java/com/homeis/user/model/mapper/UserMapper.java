@@ -8,4 +8,5 @@ import com.homeis.user.dto.User;
 public interface UserMapper {
 	
 	User login(User loginInfo);
+	int register(User userInfo);
 }
