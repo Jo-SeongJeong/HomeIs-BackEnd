@@ -27,4 +27,14 @@ public class UserServiceImpl implements UserService {
 	public User idExist(String userId) {
 		return userMapper.idExist(userId);
 	}
+
+	@Override
+	public int updateUserInfo(User user) {
+		return userMapper.updateUserInfo(user);
+	}
+
+	@Override
+	public int deleteUser(String userId) {
+		return userMapper.deleteUser(userId);
+	}
 }

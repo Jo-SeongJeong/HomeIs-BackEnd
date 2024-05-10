@@ -1,10 +1,12 @@
 package com.homeis.user.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,7 @@ public class UserController {
 	public ResponseEntity<User> login(@ModelAttribute User loginInfo) {
 		User userInfo = userService.login(loginInfo);
 		if (userInfo == null) {
-			return ResponseEntity.status(404).build();
+			return ResponseEntity.status(404).body(null);
 		}
 		return ResponseEntity.status(200).body(userInfo);
 	}
@@ -33,7 +35,7 @@ public class UserController {
 	public ResponseEntity<Integer> register(@ModelAttribute User userInfo) {
 		int flag = userService.register(userInfo);
 		if (flag != 1) {
-			return ResponseEntity.status(404).body(-1);
+			return ResponseEntity.status(404).body(0);
 		}
 		return ResponseEntity.status(200).body(1);
 	}
@@ -42,7 +44,25 @@ public class UserController {
 	public ResponseEntity<Integer> idExist(@PathVariable("userId") String userId) {
 		User user = userService.idExist(userId);
 		if (user == null) {
-			return ResponseEntity.status(404).body(-1);
+			return ResponseEntity.status(404).body(0);
+		}
+		return ResponseEntity.status(200).body(1);
+	}
+	
+	@PutMapping
+	public ResponseEntity<Integer> updateUserInfo(@ModelAttribute User userInfo) {
+		int flag = userService.updateUserInfo(userInfo);
+		if (flag == 0) {
+			return ResponseEntity.status(404).body(0);
+		}
+		return ResponseEntity.status(200).body(1);
+	}
+	
+	@DeleteMapping("/{userId}")
+	public ResponseEntity<Integer> deleteUser(@PathVariable("userId") String userId){
+		int flag = userService.deleteUser(userId);
+		if (flag == 0) {
+			return ResponseEntity.status(404).body(0);
 		}
 		return ResponseEntity.status(200).body(1);
 	}

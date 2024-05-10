@@ -21,12 +21,18 @@
 		from user
 		where id=#{userId}
 	</select>
-	<!--
-	<update id="updateMember" parameterType="member">
-		update member set password=#{password}, member_name=#{memberName}, email=#{email}, mobile=#{mobile}
-		where member_id=#{memberId};
+	
+	<update id="updateUserInfo" parameterType="user">
+		update user set password=#{password}, name=#{name}, email=#{email}, address=#{address}, birth=#{birth}, point=#{point}, job=#{job}, married=#{married}
+		where id=#{id};
 	</update>
 	
+	<delete id="deleteUser" parameterType="string">
+		delete from user
+		where id=#{userId}
+	</delete>
+	
+	<!--
 	<insert id="insertLoginTime" parameterType="string">
 		insert into login_history
 		(member_id, login_time)
