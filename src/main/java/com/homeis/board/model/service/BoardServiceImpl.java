@@ -25,6 +25,11 @@ public class BoardServiceImpl implements BoardService{
 	public List<Comment> findById(int boardId) {
 		return boardMapper.findById(boardId);
 	}
+	
+	@Override
+	public int increaseView(int id) {
+		return boardMapper.increaseView(id);
+	}
 
 	@Override
 	public int insertBoard(Board board) {

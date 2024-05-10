@@ -30,6 +30,13 @@ public class BoardController {
 		return boards;
 	}
 	
+	@PutMapping("/detail")
+	public int view(@RequestParam("id") int id) {
+		int isSuceed = boardService.increaseView(id);
+		
+		return isSuceed;
+	}
+	
 	@GetMapping("/detail")
 	public List<Comment> detail(@RequestParam("id") int boardId) {
 		List<Comment> comments = boardService.findById(boardId);
@@ -40,8 +47,7 @@ public class BoardController {
 	@PostMapping("/regist")
 	public int regist(@ModelAttribute Board board) {
 		int isSucceed = boardService.insertBoard(board);
-		
-		System.out.println("실패");
+
 		return isSucceed;
 	}
 	
