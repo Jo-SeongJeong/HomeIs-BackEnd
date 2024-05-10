@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.homeis.board.dto.Board;
 import com.homeis.board.dto.Comment;
+import com.homeis.board.dto.Likes;
 import com.homeis.board.model.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<Board> selectAll() {
 		return boardMapper.selectAll();
+	}
+	
+	@Override
+	public List<Likes> getBoardLike() {
+		return boardMapper.getBoardLike();
 	}
 
 	@Override
@@ -44,6 +50,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int deleteBoard(Board board) {
 		return boardMapper.deleteBoard(board);
+	}
+	
+	@Override
+	public int insertLike(Likes like) {
+		return boardMapper.insertLike(like);
+	}
+
+	@Override
+	public int deleteLike(Likes like) {
+		return boardMapper.deleteLike(like);
 	}
 
 	@Override

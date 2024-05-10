@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.homeis.board.dto.Board;
 import com.homeis.board.dto.Comment;
+import com.homeis.board.dto.Likes;
 import com.homeis.board.model.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +32,13 @@ public class BoardController {
 		List<Board> boards = boardService.selectAll();
 		
 		return ResponseEntity.ok(boards);
+	}
+	
+	@GetMapping("/like")
+	public ResponseEntity<List<Likes>> getLike() {
+		List<Likes> likes = boardService.getBoardLike();
+		
+		return ResponseEntity.ok(likes);
 	}
 	
 	@PatchMapping("/detail")
@@ -71,6 +78,24 @@ public class BoardController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> delete(@ModelAttribute Board board) {
 		int isSucceed = boardService.deleteBoard(board);
+		
+		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("/like")
+	public ResponseEntity<?> likeRegist(@ModelAttribute Likes like) {
+		int isSucceed = boardService.insertLike(like);
+		
+		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@DeleteMapping("/like")
+	public ResponseEntity<?> likeDelete(@ModelAttribute Likes like) {
+		int isSucceed = boardService.deleteLike(like);
 		
 		if(isSucceed == 0) return ResponseEntity.notFound().build();
 		

@@ -5,7 +5,13 @@
 <mapper namespace="com.homeis.board.model.mapper.BoardMapper">
 	<select id="selectAll" resultType="board">
 		select id, user_id, title, content, create_time, view, good 
-		from free_board
+		from free_board;
+	</select>
+	
+	<select id="getBoardLike" resultType="likes">
+		select board_id, count(board_id) as number
+		from board_like
+		group by board_id;
 	</select>
 	
 	<select id="findById" parameterType="int" resultType="comment">
@@ -35,6 +41,17 @@
 	<delete id="deleteBoard" parameterType="board">
 		delete from free_board
 		where id = #{id}
+		and user_id = #{userId};
+	</delete>
+	
+	<insert id="insertLike" parameterType="likes">
+		insert into board_like(board_id, user_id)
+		values(#{boardId}, #{userId});
+	</insert>
+	
+	<delete id="deleteLike" parameterType="likes">
+		delete from board_like
+		where board_id = #{boardId}
 		and user_id = #{userId};
 	</delete>
 	
