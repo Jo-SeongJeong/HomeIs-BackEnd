@@ -9,4 +9,5 @@ public interface UserMapper {
 	
 	User login(User loginInfo);
 	int register(User userInfo);
+	User idExist(String userId);
 }

@@ -16,6 +16,11 @@
 		(#{id}, #{password}, #{name}, #{email}, #{address}, #{birth}, #{point}, #{job}, #{married})		
 	</insert>
 	
+	<select id="idExist" parameterType="string" resultType="user">
+		select id, name, email, address, birth, point, job, married 
+		from user
+		where id=#{userId}
+	</select>
 	<!--
 	<update id="updateMember" parameterType="member">
 		update member set password=#{password}, member_name=#{memberName}, email=#{email}, mobile=#{mobile}

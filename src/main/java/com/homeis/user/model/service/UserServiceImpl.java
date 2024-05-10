@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
 	public int register(User userInfo) {
 		return userMapper.register(userInfo);
 	}
+
+	@Override
+	public User idExist(String userId) {
+		return userMapper.idExist(userId);
+	}
 }

@@ -5,4 +5,5 @@ import com.homeis.user.dto.User;
 public interface UserService {
 	User login(User loginInfo);
 	int register(User userInfo);
+	User idExist(String userId);
 }
