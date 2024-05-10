@@ -41,6 +41,7 @@ public class BoardController {
 	public int regist(@ModelAttribute Board board) {
 		int isSucceed = boardService.insertBoard(board);
 		
+		System.out.println("실패");
 		return isSucceed;
 	}
 	
