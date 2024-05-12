@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.homeis.map.model.mapper.MapMapper">
+    <select id="getApartDealInfo" parameterType="string" resultType="apartDealInfo">
+        select info.aptCode, info.buildYear, info.roadName, info.roadNameCode, info.dong, info.sigunguCode, info.eubmyundongCode,
+        info.dongCode, info.apartmentName, info.jibun, info.lng, info.lat, info.view, deal.dealAmount, deal.dealYear, deal.dealMonth,
+        deal.dealDay, deal.area, deal.floor, deal.cancelDealType
+        from houseinfo info join housedeal deal
+        on info.aptCode = deal.aptCode
+        where info.aptCode = #{aptCode}
+        order by deal.dealYear, deal.dealMonth, deal.dealDay
+    </select>
+
+    <select id="selectLike" parameterType="string" resultType="int">
+        select count(aptCode) as 'likeCount'
+        from house_like
+        where aptCode = #{aptCode};
+    </select>
+
+    <select id="selectReviewAll" parameterType="string" resultType="review">
+        select id, user_id, aptCode, content, create_time, score
+        from home_review
+        where aptCode = #{aptCode};
+    </select>
+</mapper>
