@@ -4,7 +4,7 @@
 
 <mapper namespace="com.homeis.board.model.mapper.BoardMapper">
 	<select id="selectAll" resultType="board">
-		select id, user_id, title, content, create_time, view, good 
+		select id, user_id, title, content, create_time, view
 		from free_board;
 	</select>
 	
@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="findById" parameterType="int" resultType="comment">
-		select id, board_id, user_id, comment, create_time, good 
+		select id, board_id, user_id, comment, create_time
 		from free_comment
 		where board_id = #{boardId};
 	</select>

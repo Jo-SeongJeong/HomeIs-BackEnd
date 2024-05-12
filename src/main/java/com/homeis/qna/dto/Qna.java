@@ -1,14 +1,13 @@
-package com.homeis.board.dto;
+package com.homeis.qna.dto;
 
 import lombok.Data;
 
 @Data
-public class Comment {
+public class Qna {
 	private int id;
 	private String userId;
-	private String comment;
+	private String title;
+	private String content;
 	private String createTime;
-	private int boardId;
 	
 }
-
