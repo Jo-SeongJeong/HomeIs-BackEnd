@@ -1,6 +1,7 @@
 package com.homeis.map.model.service;
 
 import com.homeis.map.dto.ApartDealInfo;
+import com.homeis.map.dto.Review;
 import com.homeis.map.model.mapper.MapMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,10 @@ public class MapServiceImpl implements MapService {
     @Override
     public int selectLike(String aptCode) {
         return mapMapper.selectLike(aptCode);
+    }
+
+    @Override
+    public List<Review> selectReviewAll(String aptCode) {
+        return mapMapper.selectReviewAll(aptCode);
     }
 }

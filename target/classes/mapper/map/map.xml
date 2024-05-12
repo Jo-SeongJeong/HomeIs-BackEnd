@@ -18,4 +18,10 @@
         from house_like
         where aptCode = #{aptCode};
     </select>
+
+    <select id="selectReviewAll" parameterType="string" resultType="review">
+        select id, user_id, aptCode, content, create_time, score
+        from home_review
+        where aptCode = #{aptCode};
+    </select>
 </mapper>

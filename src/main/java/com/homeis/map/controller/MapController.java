@@ -1,6 +1,7 @@
 package com.homeis.map.controller;
 
 import com.homeis.map.dto.ApartDealInfo;
+import com.homeis.map.dto.Review;
 import com.homeis.map.model.service.MapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class MapController {
     public ResponseEntity<?> getApartDealInfo(@PathVariable("aptCode") String aptCode) {
         List<ApartDealInfo> apartDealInfo = mapService.getApartDealInfo(aptCode);
         if (apartDealInfo == null) {
-            return ResponseEntity.status(404).body("FUCK DATA");
+            return ResponseEntity.status(404).body("NOT FOUND");
         }
         return ResponseEntity.ok().body(apartDealInfo);
     }
@@ -32,5 +33,15 @@ public class MapController {
         int likeCount = mapService.selectLike(aptCode);
 
         return ResponseEntity.ok().body(likeCount);
+    }
+
+    @GetMapping("/review/{aptCode}")
+    public ResponseEntity<?> selectReviewAll(@PathVariable("aptCode") String aptCode) {
+        List<Review> reviewList = mapService.selectReviewAll(aptCode);
+
+        if (reviewList == null) {
+            return ResponseEntity.status(404).body("NOT FOUND");
+        }
+        return ResponseEntity.ok().body(reviewList);
     }
 }
