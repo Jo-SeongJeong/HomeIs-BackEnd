@@ -36,36 +36,36 @@ public class QnaController {
 	
 	@PostMapping("/insert-question")
 	public ResponseEntity<?> registQuestion(@ModelAttribute Qna qna) {
-		int isSucceed = qnaService.insertQuestion(qna);
+		int result = qnaService.insertQuestion(qna);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping("/insert-answer")
 	public ResponseEntity<?> registAnswer(@ModelAttribute QnaComment qnaComment) {
-		int isSucceed = qnaService.insertAnswer(qnaComment);
+		int result = qnaService.insertAnswer(qnaComment);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@ModelAttribute Qna qna) {
-		int isSucceed = qnaService.updateQna(qna);
+		int result = qnaService.updateQna(qna);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> delete(@ModelAttribute Qna qna) {
-		int isSucceed = qnaService.deleteQna(qna);
+		int result = qnaService.deleteQna(qna);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
