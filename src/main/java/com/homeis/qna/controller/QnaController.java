@@ -24,14 +24,14 @@ public class QnaController {
 	
 	@PostMapping("/list")
 	public ResponseEntity<List<Qna>> list(Qna qna) {
-		List<Qna> qnas = qnaService.selectAll(qna);
-		return ResponseEntity.ok(qnas);
+		List<Qna> qnaList = qnaService.selectAll(qna);
+		return ResponseEntity.ok(qnaList);
 	}
 	
 	@PostMapping("/detail")
 	public ResponseEntity<List<QnaComment>> detail(@ModelAttribute Qna qna) {
-		List<QnaComment> qnaComments = qnaService.findById(qna);
-		return ResponseEntity.ok(qnaComments);
+		List<QnaComment> qnaCommentList = qnaService.findById(qna);
+		return ResponseEntity.ok(qnaCommentList);
 	}
 	
 	@PostMapping("/insert-question")
