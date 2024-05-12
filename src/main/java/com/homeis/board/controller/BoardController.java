@@ -29,102 +29,102 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Board>> list() {
-		List<Board> boards = boardService.selectAll();
+		List<Board> boardList = boardService.selectAll();
 		
-		return ResponseEntity.ok(boards);
+		return ResponseEntity.ok(boardList);
 	}
 	
 	@GetMapping("/like")
 	public ResponseEntity<List<Likes>> getLike() {
-		List<Likes> likes = boardService.getBoardLike();
+		List<Likes> likeList = boardService.getBoardLike();
 		
-		return ResponseEntity.ok(likes);
+		return ResponseEntity.ok(likeList);
 	}
 	
 	@PatchMapping("/detail")
 	public ResponseEntity<?> view(@RequestParam("id") int id) {
-		int isSucceed = boardService.increaseView(id);
+		int result = boardService.increaseView(id);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping("/detail/{id}")
 	public ResponseEntity<List<Comment>> detail(@PathVariable("id") int boardId) {
-		List<Comment> comments = boardService.findById(boardId);
+		List<Comment> commentList = boardService.findById(boardId);
 		
-		return ResponseEntity.ok(comments);
+		return ResponseEntity.ok(commentList);
 	}
 	
-	@PostMapping("/regist")
+	@PostMapping("/insert")
 	public ResponseEntity<?> regist(@ModelAttribute Board board) {
-		int isSucceed = boardService.insertBoard(board);
+		int result = boardService.insertBoard(board);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@ModelAttribute Board board) {
-		int isSucceed = boardService.updateBoard(board);
+		int result = boardService.updateBoard(board);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> delete(@ModelAttribute Board board) {
-		int isSucceed = boardService.deleteBoard(board);
+		int result = boardService.deleteBoard(board);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping("/like")
 	public ResponseEntity<?> likeRegist(@ModelAttribute Likes like) {
-		int isSucceed = boardService.insertLike(like);
+		int result = boardService.insertLike(like);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/like")
 	public ResponseEntity<?> likeDelete(@ModelAttribute Likes like) {
-		int isSucceed = boardService.deleteLike(like);
+		int result = boardService.deleteLike(like);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/comment/regist")
+	@PostMapping("/insert-comment")
 	public ResponseEntity<?> commentRegist(@ModelAttribute Comment comment) {
-		int isSucceed = boardService.insertComment(comment);
+		int result = boardService.insertComment(comment);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	 
-	@PutMapping("/comment/update")
+	@PutMapping("/update-comment")
 	public ResponseEntity<?> commentupdate(@ModelAttribute Comment comment) {
-		int isSucceed = boardService.updateComment(comment);
+		int result = boardService.updateComment(comment);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/comment/delete")
+	@DeleteMapping("/delete-comment")
 	public ResponseEntity<?> commentDelete(@ModelAttribute Comment comment) {
-		int isSucceed = boardService.deleteComment(comment);
+		int result = boardService.deleteComment(comment);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}

@@ -10,7 +10,6 @@ public class Board {
 	private String content;
 	private String createTime;
 	private int view;
-	private int good;
 	
 }
 
