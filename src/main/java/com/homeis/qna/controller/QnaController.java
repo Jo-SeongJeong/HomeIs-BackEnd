@@ -24,48 +24,48 @@ public class QnaController {
 	
 	@PostMapping("/list")
 	public ResponseEntity<List<Qna>> list(Qna qna) {
-		List<Qna> qnas = qnaService.selectAll(qna);
-		return ResponseEntity.ok(qnas);
+		List<Qna> qnaList = qnaService.selectAll(qna);
+		return ResponseEntity.ok(qnaList);
 	}
 	
 	@PostMapping("/detail")
 	public ResponseEntity<List<QnaComment>> detail(@ModelAttribute Qna qna) {
-		List<QnaComment> qnaComments = qnaService.findById(qna);
-		return ResponseEntity.ok(qnaComments);
+		List<QnaComment> qnaCommentList = qnaService.findById(qna);
+		return ResponseEntity.ok(qnaCommentList);
 	}
 	
 	@PostMapping("/insert-question")
 	public ResponseEntity<?> registQuestion(@ModelAttribute Qna qna) {
-		int isSucceed = qnaService.insertQuestion(qna);
+		int result = qnaService.insertQuestion(qna);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping("/insert-answer")
 	public ResponseEntity<?> registAnswer(@ModelAttribute QnaComment qnaComment) {
-		int isSucceed = qnaService.insertAnswer(qnaComment);
+		int result = qnaService.insertAnswer(qnaComment);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@ModelAttribute Qna qna) {
-		int isSucceed = qnaService.updateQna(qna);
+		int result = qnaService.updateQna(qna);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> delete(@ModelAttribute Qna qna) {
-		int isSucceed = qnaService.deleteQna(qna);
+		int result = qnaService.deleteQna(qna);
 		
-		if(isSucceed == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.notFound().build();
 		
 		return ResponseEntity.ok().build();
 	}
