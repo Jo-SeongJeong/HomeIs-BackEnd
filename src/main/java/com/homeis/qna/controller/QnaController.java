@@ -23,14 +23,20 @@ public class QnaController {
 	private final QnaService qnaService;
 	
 	@PostMapping("/list")
-	public ResponseEntity<List<Qna>> list(Qna qna) {
+	public ResponseEntity<List<Qna>> list(@ModelAttribute Qna qna) {
 		List<Qna> qnaList = qnaService.selectAll(qna);
 		return ResponseEntity.ok(qnaList);
 	}
 	
-	@PostMapping("/detail")
+	@PostMapping("/question")
+	public ResponseEntity<Qna> question(@ModelAttribute Qna qna) {
+		Qna qnaDetail = qnaService.getQuestion(qna);
+		return ResponseEntity.ok(qnaDetail);
+	}
+	
+	@PostMapping("/answer")
 	public ResponseEntity<List<QnaComment>> detail(@ModelAttribute Qna qna) {
-		List<QnaComment> qnaCommentList = qnaService.findById(qna);
+		List<QnaComment> qnaCommentList = qnaService.getAnswer(qna);
 		return ResponseEntity.ok(qnaCommentList);
 	}
 	

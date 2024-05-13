@@ -4,13 +4,19 @@
 
 <mapper namespace="com.homeis.qna.model.mapper.QnaMapper">
 	<select id="selectAll" parameterType="qna" resultType="qna">
-		select id, user_id, title, content, create_time
+		select id, title, create_time
 		from qna_board
 		where user_id = #{userId};
 	</select>
 	
-	<select id="findById" parameterType="qna" resultType="qnacomment">
-		select id, user_id, qna_id, comment, create_time 
+	<select id="getQuestion" parameterType="qna" resultType="qna">
+		select id, title, content, create_time
+		from qna_board
+		where id = #{id};
+	</select>
+	
+	<select id="getAnswer" parameterType="qna" resultType="qnacomment">
+		select id, qna_id, comment, create_time 
 		from qna_comment
 		where qna_id = #{id};
 	</select>
