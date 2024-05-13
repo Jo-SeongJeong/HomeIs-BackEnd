@@ -21,8 +21,13 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public List<QnaComment> findById(Qna qna) {
-		return qnaMapper.findById(qna);
+	public Qna getQuestion(Qna qna) {
+		return qnaMapper.getQuestion(qna);
+	}
+
+	@Override
+	public List<QnaComment> getAnswer(Qna qna) {
+		return qnaMapper.getAnswer(qna);
 	}
 
 	@Override

@@ -51,8 +51,15 @@ public class BoardController {
 	}
 	
 	@GetMapping("/detail/{id}")
-	public ResponseEntity<List<Comment>> detail(@PathVariable("id") int boardId) {
-		List<Comment> commentList = boardService.findById(boardId);
+	public ResponseEntity<Board> detail(@PathVariable("id") int id) {
+		Board board = boardService.getBoard(id);
+		
+		return ResponseEntity.ok(board);
+	}
+	
+	@GetMapping("/comment/{id}")
+	public ResponseEntity<List<Comment>> comment(@PathVariable("id") int boardId) {
+		List<Comment> commentList = boardService.getComment(boardId);
 		
 		return ResponseEntity.ok(commentList);
 	}

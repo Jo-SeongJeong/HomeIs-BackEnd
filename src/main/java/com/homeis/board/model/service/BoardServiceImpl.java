@@ -26,15 +26,20 @@ public class BoardServiceImpl implements BoardService{
 	public List<Likes> getBoardLike() {
 		return boardMapper.getBoardLike();
 	}
-
+	
 	@Override
-	public List<Comment> findById(int boardId) {
-		return boardMapper.findById(boardId);
+	public Board getBoard(int id) {
+		return boardMapper.getBoard(id);
 	}
 	
 	@Override
 	public int increaseView(int id) {
 		return boardMapper.increaseView(id);
+	}
+	
+	@Override
+	public List<Comment> getComment(int boardId) {
+		return boardMapper.getComment(boardId);
 	}
 
 	@Override
