@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,25 +24,25 @@ public class QnaController {
 	private final QnaService qnaService;
 	
 	@PostMapping("/list")
-	public ResponseEntity<List<Qna>> list(@ModelAttribute Qna qna) {
+	public ResponseEntity<List<Qna>> list(@RequestBody Qna qna) {
 		List<Qna> qnaList = qnaService.selectAll(qna);
 		return ResponseEntity.ok(qnaList);
 	}
 	
 	@PostMapping("/question")
-	public ResponseEntity<Qna> question(@ModelAttribute Qna qna) {
+	public ResponseEntity<Qna> question(@RequestBody Qna qna) {
 		Qna qnaDetail = qnaService.getQuestion(qna);
 		return ResponseEntity.ok(qnaDetail);
 	}
 	
 	@PostMapping("/answer")
-	public ResponseEntity<List<QnaComment>> detail(@ModelAttribute Qna qna) {
+	public ResponseEntity<List<QnaComment>> detail(@RequestBody Qna qna) {
 		List<QnaComment> qnaCommentList = qnaService.getAnswer(qna);
 		return ResponseEntity.ok(qnaCommentList);
 	}
 	
 	@PostMapping("/insert-question")
-	public ResponseEntity<?> registQuestion(@ModelAttribute Qna qna) {
+	public ResponseEntity<?> registQuestion(@RequestBody Qna qna) {
 		int result = qnaService.insertQuestion(qna);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -50,7 +51,7 @@ public class QnaController {
 	}
 	
 	@PostMapping("/insert-answer")
-	public ResponseEntity<?> registAnswer(@ModelAttribute QnaComment qnaComment) {
+	public ResponseEntity<?> registAnswer(@RequestBody QnaComment qnaComment) {
 		int result = qnaService.insertAnswer(qnaComment);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -59,7 +60,7 @@ public class QnaController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@ModelAttribute Qna qna) {
+	public ResponseEntity<?> update(@RequestBody Qna qna) {
 		int result = qnaService.updateQna(qna);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -68,7 +69,7 @@ public class QnaController {
 	}
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> delete(@ModelAttribute Qna qna) {
+	public ResponseEntity<?> delete(@RequestBody Qna qna) {
 		int result = qnaService.deleteQna(qna);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
