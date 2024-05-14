@@ -26,7 +26,7 @@
 		where board_id = #{boardId};
 	</select>
 	
-	<update id="increaseView" parameterType="int">
+	<update id="increaseView" parameterType="Board">
 		update free_board set view = view + 1
 		where id = #{id};
 	</update>

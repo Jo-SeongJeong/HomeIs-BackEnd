@@ -14,7 +14,7 @@ public interface BoardService {
 		// 글 상세 조회
 		public Board getBoard(int id);
 		// 글 조회수 증가
-		public int increaseView(int id);
+		public int increaseView(Board board);
 		// 자유게시판 글 상세 조회(댓글 조회)
 		public List<Comment> getComment(int boardId);
 		// 글 등록
