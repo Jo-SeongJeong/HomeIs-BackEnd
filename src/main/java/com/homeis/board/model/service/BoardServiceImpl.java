@@ -33,8 +33,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public int increaseView(int id) {
-		return boardMapper.increaseView(id);
+	public int increaseView(Board board) {
+		return boardMapper.increaseView(board);
 	}
 	
 	@Override
