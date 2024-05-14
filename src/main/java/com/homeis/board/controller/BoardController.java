@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,8 +43,8 @@ public class BoardController {
 	}
 	
 	@PatchMapping("/detail")
-	public ResponseEntity<?> view(@RequestParam("id") int id) {
-		int result = boardService.increaseView(id);
+	public ResponseEntity<?> view(@RequestBody Board board) {
+		int result = boardService.increaseView(board);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
 		
@@ -65,7 +66,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<?> regist(@ModelAttribute Board board) {
+	public ResponseEntity<?> regist(@RequestBody Board board) {
 		int result = boardService.insertBoard(board);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -74,7 +75,7 @@ public class BoardController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@ModelAttribute Board board) {
+	public ResponseEntity<?> update(@RequestBody Board board) {
 		int result = boardService.updateBoard(board);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -83,7 +84,7 @@ public class BoardController {
 	}
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> delete(@ModelAttribute Board board) {
+	public ResponseEntity<?> delete(@RequestBody Board board) {
 		int result = boardService.deleteBoard(board);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -92,7 +93,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/like")
-	public ResponseEntity<?> likeRegist(@ModelAttribute Likes like) {
+	public ResponseEntity<?> likeRegist(@RequestBody Likes like) {
 		int result = boardService.insertLike(like);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -101,7 +102,7 @@ public class BoardController {
 	}
 	
 	@DeleteMapping("/like")
-	public ResponseEntity<?> likeDelete(@ModelAttribute Likes like) {
+	public ResponseEntity<?> likeDelete(@RequestBody Likes like) {
 		int result = boardService.deleteLike(like);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -110,7 +111,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/insert-comment")
-	public ResponseEntity<?> commentRegist(@ModelAttribute Comment comment) {
+	public ResponseEntity<?> commentRegist(@RequestBody Comment comment) {
 		int result = boardService.insertComment(comment);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -119,7 +120,7 @@ public class BoardController {
 	}
 	 
 	@PutMapping("/update-comment")
-	public ResponseEntity<?> commentupdate(@ModelAttribute Comment comment) {
+	public ResponseEntity<?> commentupdate(@RequestBody Comment comment) {
 		int result = boardService.updateComment(comment);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -128,7 +129,7 @@ public class BoardController {
 	}
 	
 	@DeleteMapping("/delete-comment")
-	public ResponseEntity<?> commentDelete(@ModelAttribute Comment comment) {
+	public ResponseEntity<?> commentDelete(@RequestBody Comment comment) {
 		int result = boardService.deleteComment(comment);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
