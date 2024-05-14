@@ -3,10 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.homeis.user.model.mapper.UserMapper">
-	<select id="login" parameterType="user" resultType="user">
-		select id, name, email, address, birth, point, job, married 
+	<select id="login" parameterType="string" resultType="user">
+		select id, password, name, email, address, birth, point, job, married 
 		from user
-		where id=#{id} and password=#{password}
+		where id=#{id}
 	</select>
 	
 	<insert id="register" parameterType="user">
@@ -21,6 +21,13 @@
 		from user
 		where id=#{userId}
 	</select>
+	
+	<select id="getUserInfo" parameterType="user" resultType="user">
+		select id, password, name, email, address, birth, point, job, married 
+		from user
+		where id=#{id}
+	</select>
+	
 	
 	<update id="updateUserInfo" parameterType="user">
 		update user set password=#{password}, name=#{name}, email=#{email}, address=#{address}, birth=#{birth}, point=#{point}, job=#{job}, married=#{married}

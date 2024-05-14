@@ -4,15 +4,33 @@
 
 <mapper namespace="com.homeis.board.model.mapper.BoardMapper">
 	<select id="selectAll" resultType="board">
-		select id, user_id, title, content, create_time, view, good 
+		select id, user_id, title, create_time, view
 		from free_board
+		order by id DESC;
 	</select>
 	
-	<select id="findById" parameterType="int" resultType="comment">
-		select id, board_id, user_id, comment, create_time, good 
+	<select id="getBoard" parameterType="int" resultType="board">
+		select id, user_id, title, content, create_time, view
+		from free_board
+		where id = #{id};
+	</select>
+	
+	<select id="getBoardLike" resultType="likes">
+		select board_id, count(board_id) as number
+		from board_like
+		group by board_id;
+	</select>
+	
+	<select id="getComment" parameterType="int" resultType="comment">
+		select id, board_id, user_id, comment, create_time
 		from free_comment
 		where board_id = #{boardId};
 	</select>
+	
+	<update id="increaseView" parameterType="Board">
+		update free_board set view = view + 1
+		where id = #{id};
+	</update>
 	
 	<insert id="insertBoard" parameterType="board">
 		insert into free_board
@@ -29,6 +47,36 @@
 	
 	<delete id="deleteBoard" parameterType="board">
 		delete from free_board
+		where id = #{id}
+		and user_id = #{userId};
+	</delete>
+	
+	<insert id="insertLike" parameterType="likes">
+		insert into board_like(board_id, user_id)
+		values(#{boardId}, #{userId});
+	</insert>
+	
+	<delete id="deleteLike" parameterType="likes">
+		delete from board_like
+		where board_id = #{boardId}
+		and user_id = #{userId};
+	</delete>
+	
+	<insert id="insertComment" parameterType="comment">
+		insert into free_comment
+		(board_id, user_id, comment, create_time)
+		values
+		(#{boardId}, #{userId}, #{comment}, now());
+	</insert>
+	
+	<update id="updateComment" parameterType="comment">
+		update free_comment set comment = #{comment}, create_time = now()
+		where id = #{id}
+		and user_id = #{userId};
+	</update>
+	
+	<delete id="deleteComment" parameterType="comment">
+		delete from free_comment
 		where id = #{id}
 		and user_id = #{userId};
 	</delete>
