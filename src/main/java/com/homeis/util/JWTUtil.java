@@ -24,6 +24,7 @@ public class JWTUtil {
 
     //application.properties에 등록된 변수
     public SecretKey getSecretKey() {
+    	System.out.println("응애 : " + secretKeyPlain.getBytes());
     	return Keys.hmacShaKeyFor(secretKeyPlain.getBytes());
     }
     
@@ -35,7 +36,6 @@ public class JWTUtil {
         return Jwts.builder()
         	    .claim("id", user.getId())
                 .claim("name", user.getName())
-                .claim("role", user.getJob())
                 .expiration(expiration)				//만료 시간
                 .signWith(getSecretKey())
                 .compact();

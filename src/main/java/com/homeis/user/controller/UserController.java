@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	private final JWTUtil jwtUtil;
 	
 	//로그인
 	@PostMapping("/login")
@@ -59,23 +60,16 @@ public class UserController {
 		return ResponseEntity.status(200).body(1);
 	}
 	
-	@GetMapping("/mypage/{userId}")
-	public ResponseEntity<?> getUserInfo(@PathVariable("userId") String userId, @RequestHeader("Authorization") String tokenHeader) {
-//		String tokenHeader = request.getHeader("Authorization");	//Header에서 토큰 정보 추출
-		//토큰 헤더가 없거나 Bearer로 시작하지 않는 경우
-//		if(tokenHeader == null || !tokenHeader.startsWith("Bearer ")) {
-//			response.setStatus(401);
-//			response.getWriter().write("Unauthorized");
-//			return false;
-//		}
+	@GetMapping("/mypage/{id}")
+	public ResponseEntity<?> getUserInfo(@PathVariable("id") String id, @RequestHeader("Authorization") String tokenHeader) {
 		//토큰이 유효하지 않은 경우
-		boolean isValid = JWTUtil.isValid(tokenHeader.substring(7));
-		if(!isValid) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 접근입니다.");
+		boolean isValid = jwtUtil.isValid(tokenHeader.substring(7));
+		if(!isValid) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 만료, 잘못된 접근.");
 		
-		String memberId = JWTUtil.getIdFromToken(tokenHeader.substring(7));
-		if(!memberId.equals(userId)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+		String userId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		if(!userId.equals(id)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
 		
-		User user = userService.getUserInfo(userId);
+		User user = userService.getUserInfo(id);
 		
 		return ResponseEntity.ok(user);
 	}
