@@ -3,6 +3,7 @@ package com.homeis.board.model.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.homeis.board.dto.Board;
 import com.homeis.board.dto.Comment;
@@ -58,6 +59,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
+	@Transactional
 	public int insertLike(Likes like) {
 		return boardMapper.insertLike(like);
 	}
