@@ -5,7 +5,8 @@
 <mapper namespace="com.homeis.board.model.mapper.BoardMapper">
 	<select id="selectAll" resultType="board">
 		select id, user_id, title, create_time, view
-		from free_board;
+		from free_board
+		order by id DESC;
 	</select>
 	
 	<select id="getBoard" parameterType="int" resultType="board">
