@@ -10,7 +10,7 @@ public interface UserService {
 	int register(User userInfo);
 	User idExist(String userId);
 	User getUserInfo(String id);
-	int updateUserInfo(User user);
+	int updateUserInfo(User userInfo);
 	int deleteUser(String userId);
 	List<DongCode> getInterestArea(String userId);
 }

@@ -53,8 +53,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateUserInfo(User user) {
-		return userMapper.updateUserInfo(user);
+	public int updateUserInfo(User userInfo) {
+		String encodedPassword = passwordEncoder.encode(userInfo.getPassword());
+		userInfo.setPassword(encodedPassword);
+		
+		return userMapper.updateUserInfo(userInfo);
 	}
 
 	@Override
