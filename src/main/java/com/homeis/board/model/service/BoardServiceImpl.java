@@ -34,8 +34,6 @@ public class BoardServiceImpl implements BoardService{
 		List<Board> boardList = boardMapper.selectAll(param);
 		resp.setBoardList(boardList);
 		
-		System.out.println(boardList);
-		
 		//페이지네이션 정보 세팅
 		int totalRow = boardMapper.totalRow(param);
 		int totalPages = ((totalRow-1)/size)+1; 

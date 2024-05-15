@@ -3,11 +3,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.homeis.qna.model.mapper.QnaMapper">
-	<select id="selectAll" parameterType="qna" resultType="qna">
+	<select id="selectAll" parameterType="map" resultType="qna">
 		select id, user_id, title, create_time
 		from qna_board
 		where user_id = #{userId}
-		order by id DESC;
+		order by id DESC
+		limit #{size} offset #{offset};
+	</select>
+	
+	<select id="totalRow" parameterType="map" resultType="int">
+		select count(*)
+		from qna_board;
 	</select>
 	
 	<select id="getQuestion" parameterType="qna" resultType="qna">

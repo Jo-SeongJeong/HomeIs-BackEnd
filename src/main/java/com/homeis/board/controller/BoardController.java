@@ -30,7 +30,7 @@ public class BoardController {
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "page", defaultValue = "1") int page, 
 			@RequestParam(value = "category", defaultValue = "id") String category) {
-		System.out.println("컨트롤러");
+
 		BoardPaginationResponse response= boardService.selectAll(size, page, category);
 		
 		return ResponseEntity.ok(response);
