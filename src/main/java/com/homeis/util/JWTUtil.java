@@ -24,7 +24,7 @@ public class JWTUtil {
 
     //application.properties에 등록된 변수
     public SecretKey getSecretKey() {
-    	System.out.println("응애 : " + secretKeyPlain.getBytes());
+//    	System.out.println("응애 : " + secretKeyPlain.getBytes());
     	return Keys.hmacShaKeyFor(secretKeyPlain.getBytes());
     }
     

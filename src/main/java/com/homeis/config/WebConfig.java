@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry
 		.addInterceptor(authInterceptor)
-		.addPathPatterns("/boards/**");
+		.addPathPatterns("/board/**");
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addMapping("/auth/**")
 		.allowedOrigins("http://localhost:5173", "http://192.168.206.40:5173")
 		.allowedMethods("POST");
-		registry.addMapping("/boards/**")
+		registry.addMapping("/board/**")
 		.allowedOrigins("http://localhost:5173", "http://192.168.206.40:5173")
 		.allowedMethods("GET","POST","PUT","DELETE","OPTIONS");
 	}
