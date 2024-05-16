@@ -82,12 +82,12 @@ public class QnaServiceImpl implements QnaService {
 		Qna qna = qnaMapper.getQuestion(id);		
 		if(qna == null) return null;
 		
-		qna.setCreateTime(qna.getCreateTime().substring(0, 10));
+		qna.setCreateTime(qna.getCreateTime().substring(0, 16));
 		
 		qna.setQnaComment(qnaMapper.getAnswer(id));
 		
 		for(QnaComment comment : qna.getQnaComment()) {
-			comment.setCreateTime(comment.getCreateTime().substring(0, 10));
+			comment.setCreateTime(comment.getCreateTime().substring(0, 16));
 		}
 		
 		return qna;
