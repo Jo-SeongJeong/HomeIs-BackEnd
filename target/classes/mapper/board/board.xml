@@ -52,12 +52,14 @@
 	
 	<update id="updateBoard" parameterType="board">
 		update free_board set title = #{title}, content = #{content}, create_time = now()
-		where id = #{id};
+		where id = #{id}
+		and user_id = #{userId};
 	</update>
 	
 	<delete id="deleteBoard" parameterType="board">
 		delete from free_board
-		where id = #{id};
+		where id = #{id}
+		and user_id = #{userId};
 	</delete>
 	
 	<insert id="insertLike" parameterType="likes">
@@ -90,11 +92,13 @@
 	
 	<update id="updateComment" parameterType="comment">
 		update free_comment set comment = #{comment}, create_time = now()
-		where id = #{id};
+		where id = #{id}
+		and user_id = #{userId};
 	</update>
 	
 	<delete id="deleteComment" parameterType="comment">
 		delete from free_comment
-		where id = #{id};
+		where id = #{id}
+		and user_id = #{userId};
 	</delete>
 </mapper>
