@@ -3,6 +3,7 @@ package com.homeis.user.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,25 @@ public class UserController {
 	private final UserService userService;
 	private final JWTUtil jwtUtil;
 	
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> idExist(@PathVariable("userId") String userId) {
+		int isDup = userService.idExist(userId);
+		// id가 중복일 때
+		if (isDup == 1)	return ResponseEntity.status(HttpStatus.CONFLICT).body("id 중복!");
+		
+		return ResponseEntity.ok("생성가능!");
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<?> register(@RequestBody User userInfo) {
+		
+		int result = userService.register(userInfo);
+		if (result != 1) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근");
+		}
+		return ResponseEntity.ok(result);
+	}
+	
 	//로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User loginInfo){
@@ -41,24 +61,12 @@ public class UserController {
 		return ResponseEntity.ok(token);
 	}
 	
-	@PostMapping("/register")
-	public ResponseEntity<Integer> register(@RequestBody User userInfo) {
-		
-		int flag = userService.register(userInfo);
-		if (flag != 1) {
-			return ResponseEntity.status(404).body(0);
-		}
-		return ResponseEntity.status(200).body(1);
-	}
-	
-	@GetMapping("/{userId}")
-	public ResponseEntity<Integer> idExist(@PathVariable("userId") String userId) {
-		User user = userService.idExist(userId);
-		if (user == null) {
-			return ResponseEntity.status(404).body(0);
-		}
-		return ResponseEntity.status(200).body(1);
-	}
+	// 관심지역 등록 보류
+//	@PostMapping("/interest-area")
+//	public ResponseEntity<?> registArea (@RequestHeader("Authorization") String tokenHeader,
+//			@RequestBody DongCode dongCode) {
+//		jwtUtil.getIdFromToken(tokenHeader.substring(7));
+//	}
 	
 	@GetMapping("/mypage/{id}")
 	public ResponseEntity<?> getUserInfo(@PathVariable("id") String id, @RequestHeader("Authorization") String tokenHeader) {
@@ -74,7 +82,7 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 	
-	@PutMapping
+	@PutMapping("/")
 	public ResponseEntity<?> updateUserInfo(@RequestBody User userInfo, @RequestHeader("Authorization") String tokenHeader) {
 		//토큰이 유효하지 않은 경우
 		boolean isValid = jwtUtil.isValid(tokenHeader.substring(7));
@@ -83,11 +91,11 @@ public class UserController {
 		String userId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 		if(!userId.equals(userInfo.getId())) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
 		
-		int flag = userService.updateUserInfo(userInfo);
-		if (flag == 0) {
-			return ResponseEntity.status(404).body(0);
+		int result = userService.updateUserInfo(userInfo);
+		if (result == 0) {
+			return ResponseEntity.status(404).build();
 		}
-		return ResponseEntity.status(200).body(1);
+		return ResponseEntity.ok(result);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -100,11 +108,11 @@ public class UserController {
 		String userId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 		if(!userId.equals(id)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
 		
-		int flag = userService.deleteUser(userId);
-		if (flag == 0) {
-			return ResponseEntity.status(404).body(0);
+		int result = userService.deleteUser(userId);
+		if (result == 0) {
+			return ResponseEntity.status(404).build();
 		}
-		return ResponseEntity.status(200).body(1);
+		return ResponseEntity.ok(result);
 	}
 	
 	@GetMapping("/interest-area/{id}")
@@ -123,4 +131,5 @@ public class UserController {
 		}
 		return ResponseEntity.status(200).body(interestAreaList);
 	}
+	
 }
