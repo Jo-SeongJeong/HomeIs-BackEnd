@@ -1,10 +1,13 @@
 package com.homeis.user.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.homeis.user.dto.DongCode;
 import com.homeis.user.dto.User;
@@ -22,6 +25,34 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@Override
+	public int idExist(String userId) {
+		return userMapper.idExist(userId);
+	}
+
+	@Override
+	@Transactional
+	public int register(User userInfo) {
+		if(userMapper.idExist(userInfo.getId()) == 1) return 0;
+		
+		String encodedPassword = passwordEncoder.encode(userInfo.getPassword());
+		userInfo.setPassword(encodedPassword);
+		int isSucceed = userMapper.register(userInfo);
+		
+		if(isSucceed == 0) return 0;
+		
+		Map<String, String> location = new HashMap<>();
+		location.put("sidoName", userInfo.getSidoName());
+		location.put("gugunName", userInfo.getGugunName());
+		location.put("dongName", userInfo.getDongName());
+		
+		DongCode dongCode = userMapper.findByName(location);
+		dongCode.setUserId(userInfo.getId());
+		System.out.println(dongCode);
+		
+		return userMapper.insertDongCode(dongCode);
+	}
+
+	@Override
 	public String login(User loginInfo) {
 		String id = loginInfo.getId();
 		String password = loginInfo.getPassword();
@@ -33,19 +64,6 @@ public class UserServiceImpl implements UserService {
 		
 		return jwtUtil.generateToken(loginInfo);
 	}
-
-	@Override
-	public int register(User userInfo) {
-		String encodedPassword = passwordEncoder.encode(userInfo.getPassword());
-		userInfo.setPassword(encodedPassword);
-		
-		return userMapper.register(userInfo);
-	}
-
-	@Override
-	public User idExist(String userId) {
-		return userMapper.idExist(userId);
-	}
 	
 	@Override
 	public User getUserInfo(String id) {
@@ -53,8 +71,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateUserInfo(User user) {
-		return userMapper.updateUserInfo(user);
+	public int updateUserInfo(User userInfo) {
+		String encodedPassword = passwordEncoder.encode(userInfo.getPassword());
+		userInfo.setPassword(encodedPassword);
+		
+		return userMapper.updateUserInfo(userInfo);
 	}
 
 	@Override

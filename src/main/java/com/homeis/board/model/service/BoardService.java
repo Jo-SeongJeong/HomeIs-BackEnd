@@ -3,20 +3,15 @@ package com.homeis.board.model.service;
 import java.util.List;
 
 import com.homeis.board.dto.Board;
+import com.homeis.board.dto.BoardPaginationResponse;
 import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
 
 public interface BoardService {
 	// 자유게시판 글 전체 조회
-		public List<Board> selectAll();
-		// 좋아요 조회
-		public List<Likes> getBoardLike();
+		public BoardPaginationResponse selectAll(int size, int page, String category);
 		// 글 상세 조회
-		public Board getBoard(int id);
-		// 글 조회수 증가
-		public int increaseView(Board board);
-		// 자유게시판 글 상세 조회(댓글 조회)
-		public List<Comment> getComment(int boardId);
+		public Board findById(int id);
 		// 글 등록
 		public int insertBoard(Board board);
 		// 글 수정

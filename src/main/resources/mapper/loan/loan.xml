@@ -3,32 +3,85 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.homeis.loan.model.mapper.LoanMapper">
-	<select id="recommendDateLoan" resultType="Loan">
-		SELECT
-		id,
-		name,
-		description,
-		interest_rate,
-		link,
-		youth,
-		worker,
-		businessman,
-		married,
-		homeless,
-		real_estate,
-		views,
-		views_age_0_19,
-		views_age_20_29,
-		views_age_30_39,
-		views_age_40_49,
-		views_age_50_59,
-		views_age_60,
-		release_date,
-		bank
-		FROM loan
-		ORDER BY real_estate
-		LIMIT 3
+	<select id="selectAll" parameterType="map" resultType="Loan">
+		<choose>
+			<when test="category == 'release_date'">
+				SELECT
+				id,
+				name,
+				description,
+				interest_rate,
+				link,
+				youth,
+				worker,
+				businessman,
+				married,
+				homeless,
+				real_estate,
+				views,
+				views_age_0_19,
+				views_age_20_29,
+				views_age_30_39,
+				views_age_40_49,
+				views_age_50_59,
+				views_age_60,
+				release_date,
+				bank
+				FROM loan
+				ORDER BY release_date DESC
+			</when>
+			<otherwise>
+				SELECT
+				id,
+				name,
+				description,
+				interest_rate,
+				link,
+				youth,
+				worker,
+				businessman,
+				married,
+				homeless,
+				real_estate,
+				views,
+				views_age_0_19,
+				views_age_20_29,
+				views_age_30_39,
+				views_age_40_49,
+				views_age_50_59,
+				views_age_60,
+				release_date,
+				bank
+				FROM loan
+				ORDER BY views DESC
+			</otherwise>
+		</choose>
 	</select>
+	
+	<update id="updateView" parameterType="map">
+		update loan set views = views + 1
+		<choose>
+			<when test="age &lt;= 19">
+				,views_age_0_19 = views_age_0_19 + 1
+			</when>
+			<when test="age &gt;= 20 and age &lt;= 29">
+				,views_age_20_29 = views_age_20_29 + 1
+			</when>
+			<when test="age &gt;= 30 and age &lt;= 39">
+				,views_age_30_39 = views_age_30_39 + 1
+			</when>
+			<when test="age &gt;= 40 and age &lt;= 49">
+				,views_age_40_49 = views_age_40_49 + 1
+			</when>
+			<when test="age &gt;= 50 and age &lt;= 59">
+				,views_age_50_59 = views_age_50_59 + 1
+			</when>
+			<otherwise>
+				,views_age_60 = views_age_60 + 1
+			</otherwise>
+		</choose>
+		where id = #{id} 
+	</update>
 
 	<select id="recommendTagLoan" parameterType="Loan"
 		resultType="Loan">
@@ -76,6 +129,7 @@
 		</if>
 		ORDER BY views DESC
 	</select>
+	
 	<select id="sameAgeRecommendLoan" parameterType="int"
 		resultType="Loan">
 		SELECT
@@ -124,58 +178,7 @@
 		</choose>
 		DESC
 	</select>
-	<select id="viewLoan" resultType="Loan">
-		SELECT
-		id,
-		name,
-		description,
-		interest_rate,
-		link,
-		youth,
-		worker,
-		businessman,
-		married,
-		homeless,
-		real_estate,
-		views,
-		views_age_0_19,
-		views_age_20_29,
-		views_age_30_39,
-		views_age_40_49,
-		views_age_50_59,
-		views_age_60,
-		release_date,
-		bank
-		FROM
-		loan
-		ORDER BY views DESC
-	</select>
-	<select id="latestLoan" resultType="Loan">
-		SELECT
-		id,
-		name,
-		description,
-		interest_rate,
-		link,
-		youth,
-		worker,
-		businessman,
-		married,
-		homeless,
-		real_estate,
-		views,
-		views_age_0_19,
-		views_age_20_29,
-		views_age_30_39,
-		views_age_40_49,
-		views_age_50_59,
-		views_age_60,
-		release_date,
-		bank
-		FROM
-		loan
-		ORDER BY release_date DESC
-	</select>
+
 	<select id="selectByTag" parameterType="Loan" resultType="Loan">
 		SELECT
 		id,

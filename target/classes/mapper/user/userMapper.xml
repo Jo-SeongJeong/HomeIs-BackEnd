@@ -3,10 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.homeis.user.model.mapper.UserMapper">
-	<select id="login" parameterType="string" resultType="user">
-		select id, password, name, email, address, birth, point, job, married 
+	<select id="idExist" parameterType="string" resultType="int">
+		select count(id)
 		from user
-		where id=#{id}
+		where id=#{userId};
 	</select>
 	
 	<insert id="register" parameterType="user">
@@ -16,18 +16,30 @@
 		(#{id}, #{password}, #{name}, #{email}, #{address}, #{birth}, #{point}, #{job}, #{married})		
 	</insert>
 	
-	<select id="idExist" parameterType="string" resultType="user">
-		select id, name, email, address, birth, point, job, married 
-		from user
-		where id=#{userId}
+	<select id="findByName" parameterType="map" resultType="dongcode">
+		select dongCode
+		from dongCode
+		where sidoName = #{sidoName}
+		and gugunName = #{gugunName}
+		and dongName = #{dongName};
 	</select>
+	
+	<insert id="insertDongCode" parameterType="dongCode">
+		insert into interest_area(user_id, dongCode)
+		values(#{userId}, #{dongCode})
+	</insert>
+	
+	<select id="login" parameterType="string" resultType="user">
+		select id, password, name, email, address, birth, point, job, married 
+		from user
+		where id=#{id}
+	</select>	
 	
 	<select id="getUserInfo" parameterType="user" resultType="user">
 		select id, password, name, email, address, birth, point, job, married 
 		from user
 		where id=#{id}
 	</select>
-	
 	
 	<update id="updateUserInfo" parameterType="user">
 		update user set password=#{password}, name=#{name}, email=#{email}, address=#{address}, birth=#{birth}, point=#{point}, job=#{job}, married=#{married}
@@ -44,25 +56,4 @@
 		from interest_area
 		where user_id=#{userId}
 	</select>
-	
-	
-	<!--
-	<insert id="insertLoginTime" parameterType="string">
-		insert into login_history
-		(member_id, login_time)
-		values
-		(#{id}, current_timestamp())
-	</insert>
-	
-	<update id="insertLogoutTime" parameterType="string">
-		update login_history as lh1
-		join (
-		    SELECT member_id, MAX(login_time) AS max_login_time
-		    FROM login_history
-		    WHERE member_id = #{id}
-		    GROUP BY member_id
-		) AS lh2 ON lh1.member_id = lh2.member_id AND lh1.login_time = lh2.max_login_time
-		SET lh1.logout_time = current_timestamp();
-		
-	</update> -->
 </mapper>

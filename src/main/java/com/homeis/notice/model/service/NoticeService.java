@@ -1,12 +1,11 @@
 package com.homeis.notice.model.service;
 
-import java.util.List;
-
 import com.homeis.notice.dto.Notice;
+import com.homeis.notice.dto.NoticePaginationResponse;
 
 public interface NoticeService {
 	// 공지사항 글 전체 조회
-	public List<Notice> selectAll();
+	public NoticePaginationResponse selectAll(int size, int page);
 	// 공지사항 상세 조회
 	public Notice selectById(int id);
 	// 공지사항 등록

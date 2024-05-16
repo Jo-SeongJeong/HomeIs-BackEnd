@@ -3,22 +3,38 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.homeis.board.model.mapper.BoardMapper">
-	<select id="selectAll" resultType="board">
-		select id, user_id, title, create_time, view
-		from free_board
-		order by id DESC;
+	<select id="selectAll" parameterType="map" resultType="board">
+		<choose>
+        	<when test="category == 'id'">
+            	select id, user_id, title, create_time, view, total_like
+            	from free_board
+            	order by id DESC
+            	limit #{size} offset #{offset};
+        	</when>
+        	<!-- 추천순 -->
+        	<otherwise>
+            	select id, user_id, title, create_time, view, total_like
+            	from free_board
+            	order by total_like DESC
+            	limit #{size} offset #{offset};
+        	</otherwise>
+    	</choose>
 	</select>
+	
+	<select id="totalRow" parameterType="map" resultType="int">
+		select count(*)
+		from free_board
+	</select>
+	
+	<update id="increaseView" parameterType="int">
+		update free_board set view = view + 1
+		where id = #{id};
+	</update>
 	
 	<select id="getBoard" parameterType="int" resultType="board">
-		select id, user_id, title, content, create_time, view
+		select id, user_id, title, content, create_time, view, total_like
 		from free_board
 		where id = #{id};
-	</select>
-	
-	<select id="getBoardLike" resultType="likes">
-		select board_id, count(board_id) as number
-		from board_like
-		group by board_id;
 	</select>
 	
 	<select id="getComment" parameterType="int" resultType="comment">
@@ -26,11 +42,6 @@
 		from free_comment
 		where board_id = #{boardId};
 	</select>
-	
-	<update id="increaseView" parameterType="Board">
-		update free_board set view = view + 1
-		where id = #{id};
-	</update>
 	
 	<insert id="insertBoard" parameterType="board">
 		insert into free_board
@@ -56,11 +67,21 @@
 		values(#{boardId}, #{userId});
 	</insert>
 	
+	<update id="plusBoardLike" parameterType = "int">
+		update free_board set total_like = total_like + 1
+		where id = #{id};
+	</update>
+	
 	<delete id="deleteLike" parameterType="likes">
 		delete from board_like
 		where board_id = #{boardId}
 		and user_id = #{userId};
 	</delete>
+	
+	<update id="minusBoardLike" parameterType = "int">
+		update free_board set total_like = total_like - 1
+		where id = #{id};
+	</update>
 	
 	<insert id="insertComment" parameterType="comment">
 		insert into free_comment
