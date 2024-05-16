@@ -11,6 +11,9 @@ import com.homeis.qna.dto.QnaComment;
 @Mapper
 public interface QnaMapper {
 	public List<Qna> selectAll(Map<String, Object> param);
+	
+	public List<Qna> selectAdmin(Map<String, Object> param);
+	
 	/**
 	 * 조회한 목록에 대한 전체 
 	 * @param param
