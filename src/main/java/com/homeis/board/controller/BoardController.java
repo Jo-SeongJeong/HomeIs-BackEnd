@@ -1,5 +1,6 @@
 package com.homeis.board.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,17 +31,18 @@ public class BoardController {
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "page", defaultValue = "1") int page, 
 			@RequestParam(value = "category", defaultValue = "id") String category) {
-		System.out.println("컨트롤러");
+
 		BoardPaginationResponse response= boardService.selectAll(size, page, category);
 		
 		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/detail/{id}")
-	public ResponseEntity<Board> detail(@PathVariable("id") int id) {
+	public ResponseEntity<?> detail(@PathVariable("id") int id) {
 		Board board = boardService.findById(id);
 		
-		if(board == null) ResponseEntity.status(404).body("요청하신 글을 찾을 수 없습니다.");
+		if(board == null) return ResponseEntity.status(404).body("요청하신 글을 찾을 수 없습니다.");
+		
 		return ResponseEntity.ok(board);
 	}
 	
@@ -57,7 +59,7 @@ public class BoardController {
 	public ResponseEntity<?> update(@RequestBody Board board) {
 		int result = boardService.updateBoard(board);
 		
-		if(result == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
 		
 		return ResponseEntity.ok().build();
 	}
@@ -66,7 +68,7 @@ public class BoardController {
 	public ResponseEntity<?> delete(@RequestBody Board board) {
 		int result = boardService.deleteBoard(board);
 		
-		if(result == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
 		
 		return ResponseEntity.ok().build();
 	}
@@ -102,7 +104,7 @@ public class BoardController {
 	public ResponseEntity<?> commentupdate(@RequestBody Comment comment) {
 		int result = boardService.updateComment(comment);
 		
-		if(result == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
 		
 		return ResponseEntity.ok().build();
 	}
@@ -111,7 +113,7 @@ public class BoardController {
 	public ResponseEntity<?> commentDelete(@RequestBody Comment comment) {
 		int result = boardService.deleteComment(comment);
 		
-		if(result == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
 		
 		return ResponseEntity.ok().build();
 	}
