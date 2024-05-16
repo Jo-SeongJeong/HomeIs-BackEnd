@@ -36,6 +36,8 @@ public class JWTUtil {
         return Jwts.builder()
         	    .claim("id", user.getId())
                 .claim("name", user.getName())
+                .claim("job", user.getJob())
+                .claim("birth", user.getBirth())
                 .expiration(expiration)				//만료 시간
                 .signWith(getSecretKey())
                 .compact();
@@ -63,6 +65,32 @@ public class JWTUtil {
     	String id = (String) claims.get("id");
     	log.debug("claim id:{}",id);
     	return id;
+    }
+    
+    //토큰으로 부터 job 조회
+    public String getJobFromToken(String token) {
+    	Claims claims = Jwts.parser()
+    			.verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    	
+    	String job = (String) claims.get("job");
+    	log.debug("claim job:{}",job);
+    	return job;
+    }
+    
+    //토큰으로 부터 birth 조회
+    public String getbirthFromToken(String token) {
+    	Claims claims = Jwts.parser()
+    			.verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    	
+    	String birth = (String) claims.get("birth");
+    	log.debug("claim id:{}",birth);
+    	return birth;
     }
 }
 

@@ -25,7 +25,7 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		NoticePaginationResponse resp = new NoticePaginationResponse();
 		List<Notice> noticeList = noticeMapper.selectAll(param);
-		resp.setQnaList(noticeList);
+		resp.setNoticeList(noticeList);
 		
 		//페이지네이션 정보 세팅
 		int totalRow = noticeMapper.totalRow(param);

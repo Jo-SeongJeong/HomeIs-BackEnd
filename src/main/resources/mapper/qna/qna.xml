@@ -13,7 +13,8 @@
 	
 	<select id="totalRow" parameterType="map" resultType="int">
 		select count(*)
-		from qna_board;
+		from qna_board
+		where user_id = #{userId};
 	</select>
 	
 	<select id="getQuestion" parameterType="qna" resultType="qna">
@@ -44,13 +45,11 @@
 	
 	<update id="updateQna" parameterType="qna">
 		update qna_board set title = #{title}, content = #{content}, create_time = now()
-		where id = #{id}
-		and user_id = #{userId};
+		where id = #{id};
 	</update>
 	
 	<delete id="deleteQna" parameterType="qna">
 		delete from qna_board
-		where id = #{id}
-		and user_id = #{userId};
+		where id = #{id};
 	</delete>
 </mapper>
