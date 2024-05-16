@@ -1,7 +1,5 @@
 package com.homeis.board.model.service;
 
-import java.util.List;
-
 import com.homeis.board.dto.Board;
 import com.homeis.board.dto.BoardPaginationResponse;
 import com.homeis.board.dto.Comment;
