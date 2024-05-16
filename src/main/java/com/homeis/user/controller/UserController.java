@@ -107,8 +107,16 @@ public class UserController {
 		return ResponseEntity.status(200).body(1);
 	}
 	
-	@GetMapping("/interest-area/{userId}")
-	public ResponseEntity<List<DongCode>> getInterestArea(@PathVariable("userId") String userId) {
+	@GetMapping("/interest-area/{id}")
+	public ResponseEntity<?> getInterestArea(@PathVariable("id") String id,  @RequestHeader("Authorization") String tokenHeader) {
+		//토큰이 유효하지 않은 경우
+		boolean isValid = jwtUtil.isValid(tokenHeader.substring(7));
+		if(!isValid) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 만료, 잘못된 접근.");
+		
+		String userId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		if(!userId.equals(id)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+		
+		
 		List<DongCode> interestAreaList = userService.getInterestArea(userId);
 		if (interestAreaList.isEmpty()) {
 			return ResponseEntity.status(404).body(null);
