@@ -7,6 +7,8 @@ import com.homeis.qna.dto.QnaPaginationResponse;
 public interface QnaService {
 	public QnaPaginationResponse selectAll(String userId, int size, int page);
 	
+	public QnaPaginationResponse selectAdmin(int size, int page);
+	
 	public Qna findById(int id);
 	
 	public int insertQuestion(Qna qna);

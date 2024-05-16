@@ -40,6 +40,29 @@ public class QnaServiceImpl implements QnaService {
 				
 		return resp;
 	}
+	
+	@Override
+	public QnaPaginationResponse selectAdmin(int size, int page) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("size", size);
+		param.put("offset", (page-1)*size);
+		
+		QnaPaginationResponse resp = new QnaPaginationResponse();
+		
+		List<Qna> qnaList = qnaMapper.selectAdmin(param);
+		resp.setQnaList(qnaList);
+		
+		//페이지네이션 정보 세팅
+		int totalRow = qnaMapper.totalRow(param);
+		int totalPages = ((totalRow-1)/size)+1; 
+		resp.setTotalPages(totalPages);
+		resp.setSize(size);
+		resp.setPage(page);
+		/*======================*/
+				
+		return resp;
+	}
+	
 
 	@Override
 	public Qna findById(int id) {

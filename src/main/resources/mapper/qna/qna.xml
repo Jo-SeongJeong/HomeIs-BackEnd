@@ -11,9 +11,20 @@
 		limit #{size} offset #{offset};
 	</select>
 	
+	<select id="selectAdmin" parameterType="map" resultType="qna">
+		select id, user_id, title, create_time
+		from qna_board
+		order by id DESC
+		limit #{size} offset #{offset};
+	</select>
+	
 	<select id="totalRow" parameterType="map" resultType="int">
 		select count(*)
-		from qna_board;
+		from qna_board
+		
+		<if test="userId != null">
+			where user_id = #{userId};
+		</if>
 	</select>
 	
 	<select id="getQuestion" parameterType="qna" resultType="qna">
