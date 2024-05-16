@@ -11,10 +11,20 @@
 		limit #{size} offset #{offset};
 	</select>
 	
+	<select id="selectAdmin" parameterType="map" resultType="qna">
+		select id, user_id, title, create_time
+		from qna_board
+		order by id DESC
+		limit #{size} offset #{offset};
+	</select>
+	
 	<select id="totalRow" parameterType="map" resultType="int">
 		select count(*)
 		from qna_board
-		where user_id = #{userId};
+		
+		<if test="userId != null">
+			where user_id = #{userId};
+		</if>
 	</select>
 	
 	<select id="getQuestion" parameterType="qna" resultType="qna">
@@ -45,11 +55,13 @@
 	
 	<update id="updateQna" parameterType="qna">
 		update qna_board set title = #{title}, content = #{content}, create_time = now()
-		where id = #{id};
+		where id = #{id}
+		and user_id = #{userId};
 	</update>
 	
 	<delete id="deleteQna" parameterType="qna">
 		delete from qna_board
-		where id = #{id};
+		where id = #{id}
+		and user_id = #{userId};
 	</delete>
 </mapper>

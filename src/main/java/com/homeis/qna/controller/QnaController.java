@@ -36,12 +36,21 @@ public class QnaController {
 			@RequestParam(value = "page", defaultValue = "1") int page) {
 		//토큰이 유효하지 않은 경우
 		boolean isValid = jwtUtil.isValid(tokenHeader.substring(7));
+		
 		if(!isValid) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 만료, 잘못된 접근.");
 		
-		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
-		if(!userId.equals(tokenId)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+		String tokenJob = jwtUtil.getJobFromToken(tokenHeader.substring(7));
 		
-		QnaPaginationResponse response = qnaService.selectAll(userId, size, page);
+		QnaPaginationResponse response = new QnaPaginationResponse();
+		
+		if(tokenJob.equals("관리자")) response = qnaService.selectAdmin(size, page);
+		else {
+			String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+			if(!userId.equals(tokenId)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+			
+			response = qnaService.selectAll(userId, size, page);
+		}
+		
 		
 		return ResponseEntity.ok(response);
 	}
@@ -52,10 +61,17 @@ public class QnaController {
 		boolean isValid = jwtUtil.isValid(tokenHeader.substring(7));
 		if(!isValid) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 만료, 잘못된 접근.");
 		
-		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
-		if(!userId.equals(tokenId)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+		String tokenJob = jwtUtil.getJobFromToken(tokenHeader.substring(7));
 		
-		Qna qna = qnaService.findById(id);
+		Qna qna = new Qna();
+		
+		if(tokenJob.equals("관리자")) qna = qnaService.findById(id);
+		else {
+			String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+			if(!userId.equals(tokenId)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+			
+			qna = qnaService.findById(id);
+		}
 		
 		if(qna == null) return ResponseEntity.status(404).body("없는 글입니다!");
 		
@@ -72,7 +88,12 @@ public class QnaController {
 	}
 	
 	@PostMapping("/insert-answer")
-	public ResponseEntity<?> registAnswer(@RequestBody QnaComment qnaComment) {
+	public ResponseEntity<?> registAnswer(@RequestBody QnaComment qnaComment,
+			@RequestHeader("Authorization") String tokenHeader) {
+		
+		String tokenJob = jwtUtil.getJobFromToken(tokenHeader.substring(7));
+		if(!tokenJob.equals("관리자")) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 접근입니다.");
+		
 		int result = qnaService.insertAnswer(qnaComment);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -93,7 +114,7 @@ public class QnaController {
 	public ResponseEntity<?> delete(@RequestBody Qna qna) {
 		int result = qnaService.deleteQna(qna);
 		
-		if(result == 0) return ResponseEntity.notFound().build();
+		if(result == 0) return ResponseEntity.status(404).body("삭제 불가!");
 		
 		return ResponseEntity.ok().build();
 	}
