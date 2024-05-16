@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.homeis.notice.dto.Notice;
 import com.homeis.notice.dto.NoticePaginationResponse;
 import com.homeis.notice.model.service.NoticeService;
-import com.homeis.qna.dto.Qna;
 import com.homeis.util.JWTUtil;
 
 import lombok.RequiredArgsConstructor;
