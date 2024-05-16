@@ -1,6 +1,8 @@
 package com.homeis.loan.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,22 @@ import lombok.RequiredArgsConstructor;
 public class LoanServiceImpl implements LoanService {
 
 	private final LoanMapper loanMapper;
-
+	
 	@Override
-	public List<Loan> recommendDateLoan() {
-		// TODO Auto-generated method stub
-		return loanMapper.recommendDateLoan();
+	public List<Loan> selectAll(String category) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("category", category);
+		
+		return loanMapper.selectAll(param);
+	}
+	
+	@Override
+	public int updateView(Loan loan, int age) {
+		Map<String, Integer> param = new HashMap<>();
+		param.put("id", loan.getId());
+		param.put("age", age);
+		
+		return loanMapper.updateView(param);
 	}
 
 	@Override
@@ -28,21 +41,9 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public List<Loan> sameAgeRecommendLoan(int year) {
+	public List<Loan> sameAgeRecommendLoan(int age) {
 		// TODO Auto-generated method stub
-		return loanMapper.sameAgeRecommendLoan(year);
-	}
-
-	@Override
-	public List<Loan> viewLoan() {
-		// TODO Auto-generated method stub
-		return loanMapper.viewLoan();
-	}
-
-	@Override
-	public List<Loan> latestLoan() {
-		// TODO Auto-generated method stub
-		return loanMapper.latestLoan();
+		return loanMapper.sameAgeRecommendLoan(age);
 	}
 
 	@Override
