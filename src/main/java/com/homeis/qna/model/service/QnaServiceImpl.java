@@ -28,6 +28,12 @@ public class QnaServiceImpl implements QnaService {
 		QnaPaginationResponse resp = new QnaPaginationResponse();
 		
 		List<Qna> qnaList = qnaMapper.selectAll(param);
+		
+		// 생성 시간 파싱
+		for(Qna qna : qnaList) {
+			qna.setCreateTime(qna.getCreateTime().substring(0, 10));
+		}
+		
 		resp.setQnaList(qnaList);
 		
 		//페이지네이션 정보 세팅
@@ -50,6 +56,12 @@ public class QnaServiceImpl implements QnaService {
 		QnaPaginationResponse resp = new QnaPaginationResponse();
 		
 		List<Qna> qnaList = qnaMapper.selectAdmin(param);
+		
+		// 생성 시간 파싱
+		for(Qna qna : qnaList) {
+			qna.setCreateTime(qna.getCreateTime().substring(0, 10));
+		}
+		
 		resp.setQnaList(qnaList);
 		
 		//페이지네이션 정보 세팅
@@ -67,10 +79,16 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public Qna findById(int id) {
 		
-		Qna qna = qnaMapper.getQuestion(id);
+		Qna qna = qnaMapper.getQuestion(id);		
 		if(qna == null) return null;
 		
+		qna.setCreateTime(qna.getCreateTime().substring(0, 10));
+		
 		qna.setQnaComment(qnaMapper.getAnswer(id));
+		
+		for(QnaComment comment : qna.getQnaComment()) {
+			comment.setCreateTime(comment.getCreateTime().substring(0, 10));
+		}
 		
 		return qna;
 	}

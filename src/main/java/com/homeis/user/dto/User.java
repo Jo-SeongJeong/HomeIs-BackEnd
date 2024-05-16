@@ -13,4 +13,7 @@ public class User {
 	private int point;
 	private String job;
 	private int married;
+	private String sidoName;
+	private String gugunName;
+	private String dongName;
 }

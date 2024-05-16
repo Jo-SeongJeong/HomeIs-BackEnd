@@ -12,6 +12,7 @@ import com.homeis.board.dto.BoardPaginationResponse;
 import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
 import com.homeis.board.model.mapper.BoardMapper;
+import com.homeis.qna.dto.QnaComment;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +33,12 @@ public class BoardServiceImpl implements BoardService{
 		BoardPaginationResponse resp = new BoardPaginationResponse();
 		//게시판 목록 정보 세팅
 		List<Board> boardList = boardMapper.selectAll(param);
+		
+		// 생성 날짜 파싱
+		for(Board board : boardList) {
+			board.setCreateTime(board.getCreateTime().substring(0, 10));
+		}
+		
 		resp.setBoardList(boardList);
 		
 		//페이지네이션 정보 세팅
@@ -56,7 +63,14 @@ public class BoardServiceImpl implements BoardService{
 		
 		if(board == null) return null;
 		
+		board.setCreateTime(board.getCreateTime().substring(0, 10));
+		
 		board.setCommentList(boardMapper.getComment(id));
+		
+		for(Comment comment : board.getCommentList()) {
+			System.out.println(comment.getCreateTime());
+			comment.setCreateTime(comment.getCreateTime().substring(0, 10));
+		}
 		
 		return board;
 	}

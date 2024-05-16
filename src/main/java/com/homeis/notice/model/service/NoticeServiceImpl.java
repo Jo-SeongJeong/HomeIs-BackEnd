@@ -25,6 +25,12 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		NoticePaginationResponse resp = new NoticePaginationResponse();
 		List<Notice> noticeList = noticeMapper.selectAll(param);
+		
+		// 생성 시간 파싱
+		for(Notice notice : noticeList) {
+			notice.setCreateTime(notice.getCreateTime().substring(0, 10));
+		}
+		
 		resp.setNoticeList(noticeList);
 		
 		//페이지네이션 정보 세팅
@@ -40,8 +46,9 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Override
 	public Notice selectById(int id) {
-		System.out.println("Ss");
-		return noticeMapper.selectById(id);
+		Notice notice = noticeMapper.selectById(id);
+		notice.setCreateTime(notice.getCreateTime().substring(0, 10));
+		return notice;
 	}
 
 	@Override
