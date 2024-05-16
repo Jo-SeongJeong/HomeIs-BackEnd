@@ -26,21 +26,21 @@ public class AuthInterceptor implements HandlerInterceptor{
 		String requestURI = request.getRequestURI();
 		log.debug("AuthInterceptor()의 preHandle실행 method:{}", method);
 		
-		System.out.println(method);
-		System.out.println(requestURI);
+//		System.out.println(method);
+//		System.out.println(requestURI);
 		
 		if(requestURI.startsWith("/homeis/loan")) return checkToken(request, response);
 		
 		if(method.equals("GET") || method.equals("OPTIONS")) return true;
 		
-		System.out.println(requestURI.startsWith("/homeis/loan"));
+//		System.out.println(requestURI.startsWith("/homeis/loan"));
 		
 		return checkToken(request, response);
 	}
 	
 	private boolean checkToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String tokenHeader = request.getHeader("Authorization");	//Header에서 토큰 정보 추출
-		System.out.println(tokenHeader);
+//		System.out.println(tokenHeader);
 		
 		//토큰 헤더가 없거나 Bearer로 시작하지 않는 경우
 		if(tokenHeader == null || !tokenHeader.startsWith("Bearer ")) {
