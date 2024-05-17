@@ -6,7 +6,7 @@ import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
 
 public interface BoardService {
-	// 자유게시판 글 전체 조회
+		// 자유게시판 글 전체 조회
 		public BoardPaginationResponse selectAll(int size, int page, String category);
 		// 글 상세 조회
 		public Board findById(int id);
