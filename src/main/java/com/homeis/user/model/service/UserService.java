@@ -13,4 +13,6 @@ public interface UserService {
 	int updateUserInfo(User userInfo);
 	int deleteUser(String userId);
 	List<DongCode> getInterestArea(String userId);
+	int insertInterestArea(DongCode dongCode);
+	int deleteInterestArea(int id, String userId);
 }
