@@ -16,19 +16,6 @@
 		(#{id}, #{password}, #{name}, #{email}, #{address}, #{birth}, #{point}, #{job}, #{married})		
 	</insert>
 	
-	<select id="findByName" parameterType="map" resultType="dongcode">
-		select dongCode
-		from dongCode
-		where sidoName = #{sidoName}
-		and gugunName = #{gugunName}
-		and dongName = #{dongName};
-	</select>
-	
-	<insert id="insertDongCode" parameterType="dongCode">
-		insert into interest_area(user_id, dongCode)
-		values(#{userId}, #{dongCode})
-	</insert>
-	
 	<select id="login" parameterType="string" resultType="user">
 		select id, password, name, email, address, birth, point, job, married 
 		from user
@@ -52,8 +39,34 @@
 	</delete>
 	
 	<select id="getInterestArea" parameterType="string" resultType="dongCode">
-		select dongCode
+		select id, dongCode
 		from interest_area
 		where user_id=#{userId}
 	</select>
+	
+	<select id="findByDongCode" parameterType="string" resultType="string">
+		select dongName
+		from dongCode
+		where dongCode = #{dongCode};
+	</select>
+	
+	
+	<select id="findByName" parameterType="map" resultType="string">
+		select dongCode
+		from dongCode
+		where sidoName = #{sidoName}
+		and gugunName = #{gugunName}
+		and dongName = #{dongName};
+	</select>
+	
+	<insert id="insertDongCode" parameterType="dongCode">
+		insert into interest_area(user_id, dongCode)
+		values(#{userId}, #{dongCode})
+	</insert>
+	
+	<delete id="deleteDongCode" parameterType="dongCode">
+		delete from interest_area
+		where id = #{id}
+		and user_id = #{userId}
+	</delete>
 </mapper>

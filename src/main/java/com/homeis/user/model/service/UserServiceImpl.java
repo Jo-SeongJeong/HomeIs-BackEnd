@@ -30,26 +30,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
 	public int register(User userInfo) {
 		if(userMapper.idExist(userInfo.getId()) == 1) return 0;
 		
 		String encodedPassword = passwordEncoder.encode(userInfo.getPassword());
 		userInfo.setPassword(encodedPassword);
-		int isSucceed = userMapper.register(userInfo);
+		 
+		return userMapper.register(userInfo);
 		
-		if(isSucceed == 0) return 0;
-		
-		Map<String, String> location = new HashMap<>();
-		location.put("sidoName", userInfo.getSidoName());
-		location.put("gugunName", userInfo.getGugunName());
-		location.put("dongName", userInfo.getDongName());
-		
-		DongCode dongCode = userMapper.findByName(location);
-		dongCode.setUserId(userInfo.getId());
-		System.out.println(dongCode);
-		
-		return userMapper.insertDongCode(dongCode);
 	}
 
 	@Override
@@ -62,7 +50,7 @@ public class UserServiceImpl implements UserService {
 //		System.out.println("비번1234암호화:"+passwordEncoder.encode(password));
 		if(user==null || !passwordEncoder.matches(password, user.getPassword()) ) return null;
 		
-		return jwtUtil.generateToken(loginInfo);
+		return jwtUtil.generateToken(user);
 	}
 	
 	@Override
@@ -82,9 +70,39 @@ public class UserServiceImpl implements UserService {
 	public int deleteUser(String userId) {
 		return userMapper.deleteUser(userId);
 	}
-
+	
 	@Override
 	public List<DongCode> getInterestArea(String userId) {
-		return userMapper.getInterestArea(userId);
+		List<DongCode> dongCodeList = userMapper.getInterestArea(userId);
+		
+		if(!dongCodeList.isEmpty()) {
+			for(DongCode dongCode : dongCodeList) {
+				dongCode.setDongName(userMapper.findByDongCode(dongCode.getDongCode()));
+			}
+		}
+		
+		return dongCodeList;
+	}
+
+	@Override
+	@Transactional
+	public int insertInterestArea(DongCode dongCode) {
+		Map<String, String> location = new HashMap<>();
+		location.put("sidoName", dongCode.getSidoName());
+		location.put("gugunName", dongCode.getGugunName());
+		location.put("dongName", dongCode.getDongName());
+		
+		dongCode.setDongCode(userMapper.findByName(location));
+		System.out.println(dongCode);
+		
+		return userMapper.insertDongCode(dongCode);
+	}
+
+	@Override
+	public int deleteInterestArea(int id, String userId) {
+		DongCode dongCode = new DongCode();
+		dongCode.setId(id);
+		dongCode.setUserId(userId);
+		return userMapper.deleteDongCode(dongCode);
 	}
 }
