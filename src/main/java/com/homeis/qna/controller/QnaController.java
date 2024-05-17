@@ -110,7 +110,7 @@ public class QnaController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<?> delete(@RequestBody Qna qna) {
 		int result = qnaService.deleteQna(qna);
 		
