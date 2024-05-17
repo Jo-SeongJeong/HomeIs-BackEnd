@@ -47,7 +47,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public Notice selectById(int id) {
 		Notice notice = noticeMapper.selectById(id);
-		notice.setCreateTime(notice.getCreateTime().substring(0, 10));
+		notice.setCreateTime(notice.getCreateTime().substring(0, 16));
 		return notice;
 	}
 

@@ -12,7 +12,6 @@ import com.homeis.board.dto.BoardPaginationResponse;
 import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
 import com.homeis.board.model.mapper.BoardMapper;
-import com.homeis.qna.dto.QnaComment;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,13 +62,12 @@ public class BoardServiceImpl implements BoardService{
 		
 		if(board == null) return null;
 		
-		board.setCreateTime(board.getCreateTime().substring(0, 10));
+		board.setCreateTime(board.getCreateTime().substring(0, 16));
 		
 		board.setCommentList(boardMapper.getComment(id));
 		
 		for(Comment comment : board.getCommentList()) {
-			System.out.println(comment.getCreateTime());
-			comment.setCreateTime(comment.getCreateTime().substring(0, 10));
+			comment.setCreateTime(comment.getCreateTime().substring(0, 16));
 		}
 		
 		return board;
