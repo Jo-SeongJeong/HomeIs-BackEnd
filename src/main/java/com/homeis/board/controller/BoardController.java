@@ -64,7 +64,7 @@ public class BoardController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<?> delete(@RequestBody Board board) {
 		int result = boardService.deleteBoard(board);
 		
@@ -82,7 +82,7 @@ public class BoardController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/like")
+	@PutMapping("/like")
 	public ResponseEntity<?> likeDelete(@RequestBody Likes like) {
 		int result = boardService.deleteLike(like);
 		
@@ -109,7 +109,7 @@ public class BoardController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/delete-comment")
+	@PutMapping("/delete-comment")
 	public ResponseEntity<?> commentDelete(@RequestBody Comment comment) {
 		int result = boardService.deleteComment(comment);
 		

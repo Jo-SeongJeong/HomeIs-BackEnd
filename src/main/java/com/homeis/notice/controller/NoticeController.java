@@ -59,7 +59,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(isSucceed);
 	}
 
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<?> delete(@RequestBody Notice notice, @RequestHeader("Authorization") String tokenHeader) {
 		String tokenJob = jwtUtil.getJobFromToken(tokenHeader.substring(7));
 		if(!tokenJob.equals("관리자")) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
