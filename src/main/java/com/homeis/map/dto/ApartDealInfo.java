@@ -1,5 +1,7 @@
 package com.homeis.map.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -17,6 +19,7 @@ public class ApartDealInfo {
     private String lng;
     private String lat;
     private int view;
+    private int totalLike;
 
     //거래기록
     private String dealAmount;
@@ -26,4 +29,6 @@ public class ApartDealInfo {
     private String area;
     private String floor;
     private String cancelDealType;
+    
+    private List<Review> reviewList;
 }

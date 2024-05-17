@@ -1,14 +1,15 @@
 package com.homeis.qna.model.service;
 
-import java.util.List;
-
 import com.homeis.qna.dto.Qna;
 import com.homeis.qna.dto.QnaComment;
+import com.homeis.qna.dto.QnaPaginationResponse;
 
 public interface QnaService {
-	public List<Qna> selectAll(Qna qna);
+	public QnaPaginationResponse selectAll(String userId, int size, int page);
 	
-	public List<QnaComment> findById(Qna qna);
+	public QnaPaginationResponse selectAdmin(int size, int page);
+	
+	public Qna findById(int id);
 	
 	public int insertQuestion(Qna qna);
 	

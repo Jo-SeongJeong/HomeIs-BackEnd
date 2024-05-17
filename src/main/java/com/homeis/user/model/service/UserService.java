@@ -6,10 +6,13 @@ import com.homeis.user.dto.DongCode;
 import com.homeis.user.dto.User;
 
 public interface UserService {
-	User login(User loginInfo);
+	int idExist(String userId);
 	int register(User userInfo);
-	User idExist(String userId);
-	int updateUserInfo(User user);
+	String login(User loginInfo);
+	User getUserInfo(String id);
+	int updateUserInfo(User userInfo);
 	int deleteUser(String userId);
 	List<DongCode> getInterestArea(String userId);
+	int insertInterestArea(DongCode dongCode);
+	int deleteInterestArea(int id, String userId);
 }

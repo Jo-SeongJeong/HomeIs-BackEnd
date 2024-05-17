@@ -1,10 +1,13 @@
 package com.homeis.notice.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.homeis.notice.dto.Notice;
+import com.homeis.notice.dto.NoticePaginationResponse;
 import com.homeis.notice.model.mapper.NoticeMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -15,13 +18,37 @@ public class NoticeServiceImpl implements NoticeService {
 	private final NoticeMapper noticeMapper;
 
 	@Override
-	public List<Notice> selectAll() {
-		return noticeMapper.selectAll();
+	public NoticePaginationResponse selectAll(int size, int page) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("size", size);
+		param.put("offset", (page-1)*size);
+		
+		NoticePaginationResponse resp = new NoticePaginationResponse();
+		List<Notice> noticeList = noticeMapper.selectAll(param);
+		
+		// 생성 시간 파싱
+		for(Notice notice : noticeList) {
+			notice.setCreateTime(notice.getCreateTime().substring(0, 10));
+		}
+		
+		resp.setNoticeList(noticeList);
+		
+		//페이지네이션 정보 세팅
+		int totalRow = noticeMapper.totalRow(param);
+		int totalPages = ((totalRow-1)/size)+1; 
+		resp.setTotalPages(totalPages);
+		resp.setSize(size);
+		resp.setPage(page);
+		/*======================*/
+				
+		return resp;
 	}
 	
 	@Override
 	public Notice selectById(int id) {
-		return noticeMapper.selectById(id);
+		Notice notice = noticeMapper.selectById(id);
+		notice.setCreateTime(notice.getCreateTime().substring(0, 16));
+		return notice;
 	}
 
 	@Override
