@@ -22,6 +22,7 @@ public interface HomestaMapper {
 	public int increaseView(int id);
 	public Homesta findById(int id);
 	public int insertHomesta(Homesta homesta);
+	public int selectLast();
 	public int insertImage(HomestaImage homestaImage);
 	public int updateHomesta(Homesta homesta);
 	public int deleteImage(int id);

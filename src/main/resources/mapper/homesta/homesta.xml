@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.homeis.homesta.model.mapper.homestaMapper">
+<mapper namespace="com.homeis.homesta.model.mapper.HomestaMapper">
 	<select id="selectAll" parameterType="map" resultType="homesta">
 		<choose>
         	<when test="category == 'id'">
-            	select id, user_id, title, create_time, view, type, total_like
+            	select id, title, create_time, user_id, view, type, total_like
             	from homesta
     			<include refid="sortBy"></include>
             	order by id DESC
@@ -14,7 +14,7 @@
         	</when>
         	<!-- 추천순 -->
         	<otherwise>
-            	select id, user_id, title, create_time, view, type, total_like
+            	select id, title, create_time, user_id, view, type, total_like
             	from homesta
     			<include refid="sortBy"></include>
             	order by total_like DESC
@@ -23,14 +23,14 @@
     	</choose>
 	</select>
 	
-	<sql id="soryBy">
+	<sql id="sortBy">
 		<choose>
 			<when test="sort == 'in'">
 				<where>type = 0</where>
 			</when>
-			<otherwise>
+			<when test="sort == 'out'">
 				<where>type = 1</where>
-			</otherwise>
+			</when>
 		</choose>
 	</sql>
 	
@@ -62,6 +62,11 @@
 		values
 		(#{title}, #{content}, now(), #{userId}, #{type});
 	</insert>
+	
+	<select id="selectLast">
+		select max(id)
+		from homesta
+	</select>
 	
 	<insert id="insertImage" parameterType="homestaImage">
 		insert into homesta_image(save_name, homesta_id, image_name, image_path)
