@@ -2,7 +2,6 @@ package com.homeis.notice.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,7 +58,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(isSucceed);
 	}
 
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<?> delete(@RequestBody Notice notice, @RequestHeader("Authorization") String tokenHeader) {
 		String tokenJob = jwtUtil.getJobFromToken(tokenHeader.substring(7));
 		if(!tokenJob.equals("관리자")) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");

@@ -6,11 +6,10 @@ import lombok.Data;
 public class Review {
 
     private int id;
-    private String user_id;
+    private String userId;
     private String aptCode;
-    private String apartment_name;
     private String content;
-    private String create_time;
+    private String createTime;
     private String score;
 }
 

@@ -29,18 +29,20 @@ public class AuthInterceptor implements HandlerInterceptor{
 //		System.out.println(method);
 //		System.out.println(requestURI);
 		
-		if(requestURI.startsWith("/homeis/loan")) return checkToken(request, response);
+		if(requestURI.startsWith("/homeis/loan") || requestURI.startsWith("/homeis/user")) return checkToken(request, response);
 		
 		if(method.equals("GET") || method.equals("OPTIONS")) return true;
 		
-//		System.out.println(requestURI.startsWith("/homeis/loan"));
 		
 		return checkToken(request, response);
 	}
 	
 	private boolean checkToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String requestURI = request.getRequestURI();
+		
+		if(requestURI.startsWith("/homeis/user/exist") || requestURI.startsWith("/homeis/user/register") || requestURI.startsWith("/homeis/user/login") ) return true;
+		
 		String tokenHeader = request.getHeader("Authorization");	//Header에서 토큰 정보 추출
-//		System.out.println(tokenHeader);
 		
 		//토큰 헤더가 없거나 Bearer로 시작하지 않는 경우
 		if(tokenHeader == null || !tokenHeader.startsWith("Bearer ")) {
@@ -56,7 +58,6 @@ public class AuthInterceptor implements HandlerInterceptor{
 			return false;
 		}
 		
-		System.out.println("ASDSADSAD");
 		//토큰이 유효한 경우
 		return true;
 	}

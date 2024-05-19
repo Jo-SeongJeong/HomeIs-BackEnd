@@ -1,13 +1,13 @@
 package com.homeis.map.model.service;
 
-import com.homeis.map.dto.ApartDealInfo;
+import com.homeis.map.dto.DetailInfo;
+import com.homeis.map.dto.HouseLike;
 import com.homeis.map.dto.Review;
 
-import java.util.List;
-
 public interface MapService {
-    public List<ApartDealInfo> getApartDealInfo(String aptCode);
-    public int selectLike(String aptCode);
-    public List<Review> selectReviewAll(String aptCode);
-
+    public DetailInfo getApartDealInfo(String aptCode);
+    public int insertLike(HouseLike like);
+    public int decreaseLike(String aptCode, String userId);
+    public int insertReview(Review review);
+    public int deleteReview(int id, String userId);
 }
