@@ -9,7 +9,7 @@ public interface BoardService {
 		// 자유게시판 글 전체 조회
 		public BoardPaginationResponse selectAll(int size, int page, String category);
 		// 글 상세 조회
-		public Board findById(int id);
+		public Board findById(int id, String userId);
 		// 글 등록
 		public int insertBoard(Board board);
 		// 글 수정

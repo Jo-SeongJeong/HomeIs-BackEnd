@@ -21,6 +21,7 @@ public interface HomestaMapper {
 	public List<HomestaImage> selectImage(int homestaId);
 	public int increaseView(int id);
 	public Homesta findById(int id);
+	public int getLike(HomestaLike like);
 	public int insertHomesta(Homesta homesta);
 	public int selectLast();
 	public int insertImage(HomestaImage homestaImage);

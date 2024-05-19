@@ -15,5 +15,7 @@ public class Homesta {
 	private int type;
 	private int totalLike;
 	
+	private int isLike;
+	
 	private List<HomestaImage> image;
 }

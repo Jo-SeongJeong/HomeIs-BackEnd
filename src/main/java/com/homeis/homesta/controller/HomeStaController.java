@@ -50,8 +50,14 @@ public class HomeStaController {
 	}
 
 	@GetMapping("/detail/{id}")
-	public ResponseEntity<?> detail(@PathVariable("id") int id) {
-		Homesta homesta = homestaService.findById(id);
+	public ResponseEntity<?> detail(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String tokenHeader) {
+		String tokenId = null;
+		
+		if(tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
+			tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		}
+		
+		Homesta homesta = homestaService.findById(id, tokenId);
 
 		if(homesta == null) return ResponseEntity.status(404).body("요청하신 글을 찾을 수 없습니다.");
 

@@ -6,5 +6,5 @@ import lombok.Data;
 public class Likes {
 	private int boardId;
 	private String userId;
-	private int number;
+//	private int number;
 }

@@ -56,6 +56,13 @@
 		where id = #{id};
 	</select>
 	
+	<select id="getLike" parameterType="homestaLike">
+		select count(homesta_id)
+		from homesta_like
+		where homesta_id = #{homestaId}
+		and user_id = #{userId};
+	</select>
+	
 	<insert id="insertHomesta" parameterType="homesta">
 		insert into homesta
 		(title, content, create_time, user_id, type)

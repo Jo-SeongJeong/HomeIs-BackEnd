@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	@Transactional
-	public Board findById(int id) {
+	public Board findById(int id, String userId) {
 		int isSucceed = boardMapper.increaseView(id);
 		
 		if(isSucceed == 0) return null;
@@ -65,6 +65,13 @@ public class BoardServiceImpl implements BoardService{
 		board.setCreateTime(board.getCreateTime().substring(0, 16));
 		
 		board.setCommentList(boardMapper.getComment(id));
+		
+		Likes like = new Likes();
+		
+		like.setBoardId(id);
+		like.setUserId(userId);
+		
+		board.setIsLike(boardMapper.getLike(like));
 		
 		for(Comment comment : board.getCommentList()) {
 			comment.setCreateTime(comment.getCreateTime().substring(0, 16));

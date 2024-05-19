@@ -43,6 +43,13 @@
 		where board_id = #{boardId};
 	</select>
 	
+	<select id="getLike" parameterType="Likes">
+		select count(board_id)
+		from board_like
+		where board_id = #{boardId}
+		and user_id = #{userId};
+	</select>
+	
 	<insert id="insertBoard" parameterType="board">
 		insert into free_board
 		(user_id, title, content, create_time)

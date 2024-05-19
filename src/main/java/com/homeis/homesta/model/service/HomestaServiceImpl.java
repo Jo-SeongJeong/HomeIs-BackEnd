@@ -54,12 +54,18 @@ public class HomestaServiceImpl implements HomestaService {
 
 	@Override
 	@Transactional
-	public Homesta findById(int id) {
+	public Homesta findById(int id, String userId) {
 		int isSucceed = homestaMapper.increaseView(id);
 		
 		if(isSucceed == 0) return null;
 		
 		Homesta homesta = homestaMapper.findById(id);
+		
+		HomestaLike like = new HomestaLike();
+		like.setHomestaId(id);
+		like.setUserId(userId);
+
+		homesta.setIsLike(homestaMapper.getLike(like));
 		
 		homesta.setImage(homestaMapper.selectImage(id));
 		
