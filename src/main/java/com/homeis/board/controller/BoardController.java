@@ -55,7 +55,11 @@ public class BoardController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<?> regist(@RequestBody Board board) {
+	public ResponseEntity<?> regist(@RequestBody Board board, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+
+		if(!board.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.insertBoard(board);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -64,16 +68,24 @@ public class BoardController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody Board board) {
-		int result = boardService.updateBoard(board);
+	public ResponseEntity<?> update(@RequestBody Board board, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+
+		if(!board.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
 		
+		int result = boardService.updateBoard(board);
+
 		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/delete")
-	public ResponseEntity<?> delete(@RequestBody Board board) {
+	public ResponseEntity<?> delete(@RequestBody Board board,@RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		
+		if(!board.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.deleteBoard(board);
 		
 		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
@@ -82,7 +94,11 @@ public class BoardController {
 	}
 	
 	@PostMapping("/like")
-	public ResponseEntity<?> likeRegist(@RequestBody Likes like) {
+	public ResponseEntity<?> likeRegist(@RequestBody Likes like, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		
+		if(!like.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.insertLike(like);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -91,7 +107,11 @@ public class BoardController {
 	}
 	
 	@PutMapping("/like")
-	public ResponseEntity<?> likeDelete(@RequestBody Likes like) {
+	public ResponseEntity<?> likeDelete(@RequestBody Likes like, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		
+		if(!like.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.deleteLike(like);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -100,7 +120,11 @@ public class BoardController {
 	}
 	
 	@PostMapping("/insert-comment")
-	public ResponseEntity<?> commentRegist(@RequestBody Comment comment) {
+	public ResponseEntity<?> commentRegist(@RequestBody Comment comment, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		
+		if(!comment.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.insertComment(comment);
 		
 		if(result == 0) return ResponseEntity.notFound().build();
@@ -109,7 +133,11 @@ public class BoardController {
 	}
 	 
 	@PutMapping("/update-comment")
-	public ResponseEntity<?> commentupdate(@RequestBody Comment comment) {
+	public ResponseEntity<?> commentupdate(@RequestBody Comment comment, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		
+		if(!comment.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.updateComment(comment);
 		
 		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
@@ -118,7 +146,11 @@ public class BoardController {
 	}
 	
 	@PutMapping("/delete-comment")
-	public ResponseEntity<?> commentDelete(@RequestBody Comment comment) {
+	public ResponseEntity<?> commentDelete(@RequestBody Comment comment, @RequestHeader("Authorization") String tokenHeader) {
+		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		
+		if(!comment.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
 		int result = boardService.deleteComment(comment);
 		
 		if(result == 0) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한 없음. 잘못된 접근.");
