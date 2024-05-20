@@ -83,8 +83,7 @@ public class HomeStaController {
 		// 빈 배열이면 없는거임
 		if (!files[0].isEmpty()) {
 			// 경로 생성 날짜 폴더
-			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-			String saveFolder = uploadPath + File.separator + today;
+			String saveFolder = uploadPath;
 			File folder = new File(saveFolder);
 
 			// 경로가 없다면 폴더 생성
@@ -137,8 +136,7 @@ public class HomeStaController {
 		// 빈 배열이면 없는거임
 		if (!files[0].isEmpty()) {
 			// 경로 생성 날짜 폴더
-			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-			String saveFolder = uploadPath + File.separator + today;
+			String saveFolder = uploadPath;
 			File folder = new File(saveFolder);
 
 			// 경로가 없다면 폴더 생성
