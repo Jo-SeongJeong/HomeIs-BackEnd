@@ -14,6 +14,8 @@ public class Board {
 	private int view;
 	private int totalLike;
 	
+	private int isLike;
+	
 	private List<Comment> commentList;
 	
 }

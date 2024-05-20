@@ -23,6 +23,7 @@ public interface BoardMapper {
 	public int increaseView(int id);
 	public Board getBoard(int id);
 	public List<Comment> getComment(int boardId);
+	public int getLike(Likes like);
 	// 글 등록
 	public int insertBoard(Board board);
 	// 글 수정

@@ -6,7 +6,7 @@ import com.homeis.homesta.dto.HomestaPaginationResponse;
 
 public interface HomestaService {
 	public HomestaPaginationResponse selectAll(int size, int page, String category, String sort);
-	public Homesta findById(int id);
+	public Homesta findById(int id, String userId);
 	public int insertHomesta(Homesta homesta);
 	public int updateHomesta(Homesta homesta);
 	public int deleteHomesta(int id, String userId);

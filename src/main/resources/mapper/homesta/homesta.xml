@@ -40,7 +40,7 @@
 	</select>
 	
 	<select id ="selectImage" parameterType="int" resultType="homestaImage">
-		select image_path
+		select save_name, homesta_id
 		from homesta_image
 		where homesta_id = #{id}
 	</select>
@@ -54,6 +54,13 @@
 		select id, user_id, title, content, create_time, view, type, total_like
         from homesta
 		where id = #{id};
+	</select>
+	
+	<select id="getLike" parameterType="homestaLike">
+		select count(homesta_id)
+		from homesta_like
+		where homesta_id = #{homestaId}
+		and user_id = #{userId};
 	</select>
 	
 	<insert id="insertHomesta" parameterType="homesta">
