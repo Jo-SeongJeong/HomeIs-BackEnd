@@ -1,9 +1,6 @@
 package com.homeis.map.model.service;
 
-import com.homeis.map.dto.ApartDealInfo;
-import com.homeis.map.dto.DetailInfo;
-import com.homeis.map.dto.HouseLike;
-import com.homeis.map.dto.Review;
+import com.homeis.map.dto.*;
 import com.homeis.map.model.mapper.MapMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -82,6 +79,11 @@ public class MapServiceImpl implements MapService {
 	@Override
 	public List<ApartDealInfo> selectLikeRank() {
 		return mapMapper.selectLikeRank();
+	}
+
+	@Override
+	public List<DongCodeDTO> selectDongCode(String inputDongName) {
+		return mapMapper.selectDongCode(inputDongName);
 	}
 
 }
