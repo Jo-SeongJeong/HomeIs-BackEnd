@@ -45,7 +45,7 @@ public class HomeStaController {
 			@RequestParam(value = "category", defaultValue = "id") String category,
 			@RequestParam(value = "sort", required = false) String sort) {
 		HomestaPaginationResponse response = homestaService.selectAll(size, page, category, sort);
-
+		
 		return ResponseEntity.ok(response);
 	}
 
@@ -65,11 +65,20 @@ public class HomeStaController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> regist(@RequestBody Homesta homesta, @RequestHeader("Authorization") String tokenHeader, @RequestParam("upfile") MultipartFile[] files) throws IllegalStateException, java.io.IOException {
+	public ResponseEntity<?> regist(@RequestHeader("Authorization") String tokenHeader, 
+			@RequestParam("upfile") MultipartFile[] files, 
+			@RequestParam("userId") String userId, 
+			@RequestParam("title") String title,
+			@RequestParam("content") String content) throws IllegalStateException, java.io.IOException {
 		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 
-		if(!homesta.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
-
+		if(!userId.equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		
+		Homesta homesta = new Homesta();
+		homesta.setUserId(userId);
+		homesta.setTitle(title);
+		homesta.setContent(content);
+		
 		// 파일 배열로 받아옴
 		// 빈 배열이면 없는거임
 		if (!files[0].isEmpty()) {
@@ -88,8 +97,7 @@ public class HomeStaController {
 				HomestaImage homestaImage = new HomestaImage ();
 				String originalFileName = mfile.getOriginalFilename();
 				if (!originalFileName.isEmpty()) {
-					String saveFileName = UUID.randomUUID().toString()
-							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+					String saveFileName = UUID.randomUUID() + originalFileName;
 					homestaImage.setImagePath(saveFolder);
 					homestaImage.setSaveName(saveFileName);
 					homestaImage.setImageName(originalFileName);
@@ -109,11 +117,22 @@ public class HomeStaController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<?> update(@RequestBody Homesta homesta, @RequestHeader("Authorization") String tokenHeader, @RequestParam("upfile") MultipartFile[] files) throws IllegalStateException, IOException {		
+	public ResponseEntity<?> update(@RequestHeader("Authorization") String tokenHeader, 
+			@RequestParam("upfile") MultipartFile[] files,
+			@RequestParam("id") int id,
+			@RequestParam("userId") String userId, 
+			@RequestParam("title") String title,
+			@RequestParam("content") String content) throws IllegalStateException, IOException {		
 		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 
-		if(!homesta.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+		if(!userId.equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
 
+		Homesta homesta = new Homesta();
+		homesta.setId(id);
+		homesta.setUserId(userId);
+		homesta.setTitle(title);
+		homesta.setContent(content);
+		
 		// 파일 배열로 받아옴
 		// 빈 배열이면 없는거임
 		if (!files[0].isEmpty()) {
@@ -132,8 +151,7 @@ public class HomeStaController {
 				HomestaImage homestaImage = new HomestaImage ();
 				String originalFileName = mfile.getOriginalFilename();
 				if (!originalFileName.isEmpty()) {
-					String saveFileName = UUID.randomUUID().toString()
-							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+					String saveFileName = UUID.randomUUID() + originalFileName;
 					homestaImage.setImagePath(saveFolder);
 					homestaImage.setSaveName(saveFileName);
 					homestaImage.setImageName(originalFileName);
