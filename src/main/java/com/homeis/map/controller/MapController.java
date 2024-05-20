@@ -1,5 +1,6 @@
 package com.homeis.map.controller;
 
+import com.homeis.map.dto.ApartDealInfo;
 import com.homeis.map.dto.DetailInfo;
 import com.homeis.map.dto.HouseLike;
 import com.homeis.map.dto.Review;
@@ -7,6 +8,8 @@ import com.homeis.map.model.service.MapService;
 import com.homeis.util.JWTUtil;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +37,24 @@ public class MapController {
         if (detailInfo == null) return ResponseEntity.status(404).body("NOT FOUND");
         
         return ResponseEntity.ok().body(detailInfo);
+    }
+    
+    @GetMapping("/like")
+    public ResponseEntity<?> getLike() {
+        List<ApartDealInfo> aptInfo = mapService.selectLikeRank();
+        
+        if (aptInfo == null) return ResponseEntity.status(404).body("NOT FOUND");
+        
+        return ResponseEntity.ok().body(aptInfo);
+    }
+    
+    @GetMapping("/view")
+    public ResponseEntity<?> getView() {
+        List<ApartDealInfo> aptInfo = mapService.selectViewRank();
+        
+        if (aptInfo == null) return ResponseEntity.status(404).body("NOT FOUND");
+        
+        return ResponseEntity.ok().body(aptInfo);
     }
     
     @PostMapping("/like")
