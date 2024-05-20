@@ -22,4 +22,8 @@ public interface MapMapper {
     
     public int insertReview(Review review);
     public int deleteReview(Map<String, Object> param);
+    
+    public List<ApartDealInfo> selectViewRank();
+    public List<ApartDealInfo> selectLikeRank();
+    
 }
