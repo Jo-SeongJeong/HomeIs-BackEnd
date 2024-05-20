@@ -3,6 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.homeis.map.model.mapper.MapMapper">
+    <select id="selectViewRank" resultType="ApartDealInfo">
+        select aptCode, buildYear, roadName, roadNameCode, dong, sigunguCode, eubmyundongCode,
+        dongCode, apartmentName, jibun, lng, lat, view, total_like
+        from houseinfo
+        order by view desc
+        limit 3
+    </select>
+	
+	<select id="selectLikeRank" resultType="ApartDealInfo">
+        select aptCode, buildYear, roadName, roadNameCode, dong, sigunguCode, eubmyundongCode,
+        dongCode, apartmentName, jibun, lng, lat, view, total_like
+        from houseinfo
+        order by total_like desc
+        limit 3
+    </select>
+
     <update id="increaseView" parameterType="string">
     	update houseinfo set view = view + 1
     	where aptCode = #{aptCode};
@@ -16,6 +32,7 @@
         on info.aptCode = deal.aptCode
         where info.aptCode = #{aptCode}
         order by deal.dealYear, deal.dealMonth, deal.dealDay
+        limit 10
     </select>
     
     <select id="selectReviewAll" parameterType="string" resultType="review">

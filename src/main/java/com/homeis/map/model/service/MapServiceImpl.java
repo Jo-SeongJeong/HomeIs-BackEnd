@@ -74,4 +74,14 @@ public class MapServiceImpl implements MapService {
 		return mapMapper.deleteReview(param);
 	}
 
+	@Override
+	public List<ApartDealInfo> selectViewRank() {
+		return mapMapper.selectViewRank();
+	}
+
+	@Override
+	public List<ApartDealInfo> selectLikeRank() {
+		return mapMapper.selectLikeRank();
+	}
+
 }
