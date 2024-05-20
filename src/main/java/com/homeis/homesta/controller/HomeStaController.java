@@ -1,10 +1,7 @@
 package com.homeis.homesta.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -116,51 +113,10 @@ public class HomeStaController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<?> update(@RequestHeader("Authorization") String tokenHeader, 
-			@RequestParam("upfile") MultipartFile[] files,
-			@RequestParam("id") int id,
-			@RequestParam("userId") String userId, 
-			@RequestParam("title") String title,
-			@RequestParam("content") String content) throws IllegalStateException, IOException {		
+	public ResponseEntity<?> update(@RequestHeader("Authorization") String tokenHeader, @RequestBody Homesta homesta) {		
 		String tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 
-		if(!userId.equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
-
-		Homesta homesta = new Homesta();
-		homesta.setId(id);
-		homesta.setUserId(userId);
-		homesta.setTitle(title);
-		homesta.setContent(content);
-		
-		// 파일 배열로 받아옴
-		// 빈 배열이면 없는거임
-		if (!files[0].isEmpty()) {
-			// 경로 생성 날짜 폴더
-			String saveFolder = uploadPath;
-			File folder = new File(saveFolder);
-
-			// 경로가 없다면 폴더 생성
-			if (!folder.exists())
-				folder.mkdirs();
-
-			// 반복문으로로 파일 등록
-			List<HomestaImage> fileInfos = new ArrayList<HomestaImage>();
-			for (MultipartFile mfile : files) {
-				HomestaImage homestaImage = new HomestaImage ();
-				String originalFileName = mfile.getOriginalFilename();
-				if (!originalFileName.isEmpty()) {
-					String saveFileName = UUID.randomUUID() + originalFileName;
-					homestaImage.setImagePath(saveFolder);
-					homestaImage.setSaveName(saveFileName);
-					homestaImage.setImageName(originalFileName);
-					homestaImage.setHomestaId(homesta.getId());
-					mfile.transferTo(new File(folder, saveFileName));
-				}
-				fileInfos.add(homestaImage);
-			}
-
-			homesta.setImage(fileInfos);
-		}
+		if(!homesta.getUserId().equals(tokenId))return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
 
 		int result = homestaService.updateHomesta(homesta);
 

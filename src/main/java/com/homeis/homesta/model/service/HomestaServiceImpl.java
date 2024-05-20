@@ -96,21 +96,9 @@ public class HomestaServiceImpl implements HomestaService {
 	}
 
 	@Override
-	@Transactional
 	public int updateHomesta(Homesta homesta) {
+		
 		int isSucceed = homestaMapper.updateHomesta(homesta);
-		
-		if(isSucceed == 0) return 0;
-		
-		isSucceed = homestaMapper.deleteImage(homesta.getId());
-		
-		if(isSucceed == 0) return 0;
-		
-		for(HomestaImage image : homesta.getImage()) {
-			isSucceed = homestaMapper.insertImage(image);
-			
-			if(isSucceed == 0) return 0;
-		}
 		
 		return isSucceed;
 	}
