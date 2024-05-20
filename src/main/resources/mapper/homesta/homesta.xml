@@ -40,7 +40,7 @@
 	</select>
 	
 	<select id ="selectImage" parameterType="int" resultType="homestaImage">
-		select image_path
+		select save_name, homesta_id
 		from homesta_image
 		where homesta_id = #{id}
 	</select>
