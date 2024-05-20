@@ -6,7 +6,7 @@
 	<select id="selectAll" parameterType="map" resultType="homesta">
 		<choose>
         	<when test="category == 'id'">
-            	select id, title, create_time, user_id, view, type, total_like
+            	select id, title, content, create_time, user_id, view, type, total_like
             	from homesta
     			<include refid="sortBy"></include>
             	order by id DESC
@@ -14,7 +14,7 @@
         	</when>
         	<!-- 추천순 -->
         	<otherwise>
-            	select id, title, create_time, user_id, view, type, total_like
+            	select id, title, content, create_time, user_id, view, type, total_like
             	from homesta
     			<include refid="sortBy"></include>
             	order by total_like DESC
