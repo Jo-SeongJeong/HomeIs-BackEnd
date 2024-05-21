@@ -28,8 +28,14 @@ public class MapController {
     private final JWTUtil jwtUtil;
 
     @GetMapping("/apartDealInfo/{aptCode}")
-    public ResponseEntity<?> getApartDealInfo(@PathVariable("aptCode") String aptCode) {
-        DetailInfo detailInfo = mapService.getApartDealInfo(aptCode);
+    public ResponseEntity<?> getApartDealInfo(@PathVariable("aptCode") String aptCode, @RequestHeader(value = "Authorization", required = false) String tokenHeader) {
+    	String tokenId = null;
+    	
+		if(tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
+			tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
+		}
+    	
+        DetailInfo detailInfo = mapService.getApartDealInfo(aptCode, tokenId);
 
         if (detailInfo == null) return ResponseEntity.status(404).body("NOT FOUND");
 

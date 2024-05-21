@@ -18,16 +18,22 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public DetailInfo getApartDealInfo(String aptCode) {
+    public DetailInfo getApartDealInfo(String aptCode, String userId) {
     	int isSucceed = mapMapper.increaseView(aptCode);
     	
     	if(isSucceed == 0) return null;
     	List<ApartDealInfo> aptDealInfoList = mapMapper.getApartDealInfo(aptCode);
     	List<Review> reviewList = mapMapper.selectReviewAll(aptCode);
     	
+    	HouseLike like = new HouseLike();
+    	like.setAptCode(aptCode);
+    	like.setUserId(userId);
+    	
     	DetailInfo detailInfo = new DetailInfo();
     	detailInfo.setAptDealInfoList(aptDealInfoList);
     	detailInfo.setReviewList(reviewList);
+    	detailInfo.setIsLike(mapMapper.getLike(like));
+    	
         return detailInfo;
     }
 

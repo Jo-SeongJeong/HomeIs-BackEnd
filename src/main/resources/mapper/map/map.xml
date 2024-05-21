@@ -40,6 +40,13 @@
         from home_review
         where aptCode = #{aptCode};
     </select>
+    
+    <select id="getLike" parameterType="houseLike">
+		select count(aptCode)
+		from house_like
+		where aptCode = #{aptCode}
+		and user_id = #{userId};
+	</select>
 	
 	<insert id="insertLike" parameterType="houseLike">
 		insert into house_like (aptCode, user_id)
