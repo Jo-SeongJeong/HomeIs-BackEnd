@@ -1,9 +1,6 @@
 package com.homeis.map.model.service;
 
-import com.homeis.map.dto.ApartDealInfo;
-import com.homeis.map.dto.DetailInfo;
-import com.homeis.map.dto.HouseLike;
-import com.homeis.map.dto.Review;
+import com.homeis.map.dto.*;
 import com.homeis.map.model.mapper.MapMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,16 +18,22 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public DetailInfo getApartDealInfo(String aptCode) {
+    public DetailInfo getApartDealInfo(String aptCode, String userId) {
     	int isSucceed = mapMapper.increaseView(aptCode);
     	
     	if(isSucceed == 0) return null;
     	List<ApartDealInfo> aptDealInfoList = mapMapper.getApartDealInfo(aptCode);
     	List<Review> reviewList = mapMapper.selectReviewAll(aptCode);
     	
+    	HouseLike like = new HouseLike();
+    	like.setAptCode(aptCode);
+    	like.setUserId(userId);
+    	
     	DetailInfo detailInfo = new DetailInfo();
     	detailInfo.setAptDealInfoList(aptDealInfoList);
     	detailInfo.setReviewList(reviewList);
+    	detailInfo.setIsLike(mapMapper.getLike(like));
+    	
         return detailInfo;
     }
 
@@ -72,6 +75,26 @@ public class MapServiceImpl implements MapService {
 		param.put("userId", userId);
 		
 		return mapMapper.deleteReview(param);
+	}
+
+	@Override
+	public List<ApartDealInfo> selectViewRank() {
+		return mapMapper.selectViewRank();
+	}
+
+	@Override
+	public List<ApartDealInfo> selectLikeRank() {
+		return mapMapper.selectLikeRank();
+	}
+
+	@Override
+	public List<DongCodeDTO> selectDongCode(String inputDongName) {
+		return mapMapper.selectDongCode(inputDongName);
+	}
+
+	@Override
+	public List<HouseInfo> selectHouseInfo(String dongCodeStr) {
+		return mapMapper.selectHouseInfo(dongCodeStr);
 	}
 
 }

@@ -8,5 +8,5 @@ import lombok.Data;
 public class DetailInfo {
 	private List<ApartDealInfo> aptDealInfoList;
 	private List<Review> reviewList;
-
+	private int isLike;
 }
