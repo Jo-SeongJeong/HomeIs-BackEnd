@@ -105,4 +105,10 @@ public class MapController {
         List<DongCodeDTO> dongCodeList = mapService.selectDongCode(dongName);
         return ResponseEntity.ok().body(dongCodeList);
     }
+    
+    @GetMapping("/houseInfo/{dongCodeStr}")
+    public ResponseEntity<?> getHouseInfo(@PathVariable("dongCodeStr") String dongCodeStr) {
+        List<HouseInfo> houseInfoList = mapService.selectHouseInfo(dongCodeStr);
+        return ResponseEntity.ok().body(houseInfoList);
+    }
 }

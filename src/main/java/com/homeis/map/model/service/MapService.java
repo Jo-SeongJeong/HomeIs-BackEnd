@@ -13,4 +13,5 @@ public interface MapService {
     public List<ApartDealInfo> selectViewRank();
     public List<ApartDealInfo> selectLikeRank();
     public List<DongCodeDTO> selectDongCode(String inputDongName);
+    public List<HouseInfo> selectHouseInfo(String dongCodeStr);
 }

@@ -79,4 +79,10 @@
         where dongName like CONCAT('%',#{inputDongName},'%')
         LIMIT 20;
     </select>
+    
+    <select id="selectHouseInfo" parameterType="string" resultType="houseInfo">
+        select aptCode, dongCode, buildYear, dong, apartmentName, jibun, lng, lat 
+		from houseinfo 
+		where dongCode = #{dongCodeStr}
+    </select>
 </mapper>

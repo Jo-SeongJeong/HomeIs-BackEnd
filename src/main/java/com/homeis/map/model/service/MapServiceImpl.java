@@ -86,4 +86,9 @@ public class MapServiceImpl implements MapService {
 		return mapMapper.selectDongCode(inputDongName);
 	}
 
+	@Override
+	public List<HouseInfo> selectHouseInfo(String dongCodeStr) {
+		return mapMapper.selectHouseInfo(dongCodeStr);
+	}
+
 }
