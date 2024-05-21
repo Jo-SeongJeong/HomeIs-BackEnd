@@ -12,6 +12,13 @@
             	order by id DESC
             	limit #{size} offset #{offset};
         	</when>
+        	<when test="category == 'view'">
+            	select id, title, content, create_time, user_id, view, type, total_like
+            	from homesta
+    			<include refid="sortBy"></include>
+            	order by view DESC
+            	limit #{size} offset #{offset};
+        	</when>
         	<!-- 추천순 -->
         	<otherwise>
             	select id, title, content, create_time, user_id, view, type, total_like
