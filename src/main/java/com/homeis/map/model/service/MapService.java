@@ -2,10 +2,7 @@ package com.homeis.map.model.service;
 
 import java.util.List;
 
-import com.homeis.map.dto.ApartDealInfo;
-import com.homeis.map.dto.DetailInfo;
-import com.homeis.map.dto.HouseLike;
-import com.homeis.map.dto.Review;
+import com.homeis.map.dto.*;
 
 public interface MapService {
     public DetailInfo getApartDealInfo(String aptCode);
@@ -15,4 +12,6 @@ public interface MapService {
     public int deleteReview(int id, String userId);    
     public List<ApartDealInfo> selectViewRank();
     public List<ApartDealInfo> selectLikeRank();
+    public List<DongCodeDTO> selectDongCode(String inputDongName);
+    public List<HouseInfo> selectHouseInfo(String dongCodeStr);
 }
