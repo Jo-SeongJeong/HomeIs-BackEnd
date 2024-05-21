@@ -16,6 +16,7 @@ public interface MapMapper {
 	public int increaseView(String aptCode);
     public List<ApartDealInfo> getApartDealInfo(String aptCode);
     public List<Review> selectReviewAll(String aptCode);
+    public int getLike(HouseLike like);
     
     public int insertLike(HouseLike like);
     public int increaseLike(String aptCode);
