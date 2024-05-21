@@ -1,5 +1,6 @@
 package com.homeis.openai.service;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
     private String promptUrl;
     
     @Override
-    public Map<String, Object> prompt(ChatCompletion chatCompletion) {
+    public String prompt(ChatCompletion chatCompletion) {
         System.out.println("[+] 신규 프롬프트를 수행합니다.");
 
         Map<String, Object> resultMap = new HashMap<>();
@@ -49,11 +50,19 @@ public class ChatGPTServiceImpl implements ChatGPTService {
             ObjectMapper om = new ObjectMapper();
             resultMap = om.readValue(response.getBody(), new TypeReference<>() {
             });
+            System.out.println("chatGpt resultMap 체크:"+resultMap);
         } catch (JsonProcessingException e) {
         	System.out.println("JsonMappingException :: " + e.getMessage());
         } catch (RuntimeException e) {
         	System.out.println("RuntimeException :: " + e.getMessage());
         }
-        return resultMap;
+        
+        String text = (String)((Map)((Map)((List)resultMap.get("choices")).get(0)).get("message")).get("content");
+        text = text.replace("\n", "<br />");
+        text = text.replaceAll("\\*\\*(.*?)\\*\\*", "<strong>$1</strong>");
+
+        System.out.println("text : " + text);
+        
+        return text;
     }
 }
