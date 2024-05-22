@@ -15,7 +15,7 @@
         	<otherwise>
             	select id, user_id, title, create_time, total_view, total_like
             	from free_board
-            	order by total_like DESC
+            	order by total_like DESC, total_view DESC
             	limit #{size} offset #{offset};
         	</otherwise>
     	</choose>
