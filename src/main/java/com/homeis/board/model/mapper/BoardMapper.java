@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.homeis.board.dto.Board;
 import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
+import com.homeis.board.dto.Views;
 
 @Mapper
 public interface BoardMapper {
@@ -23,6 +24,8 @@ public interface BoardMapper {
 	public int increaseView(int id);
 	public Board getBoard(int id);
 	public List<Comment> getComment(int boardId);
+	public int getView(Views view);
+	public int insertView(Views view);
 	public int getLike(Likes like);
 	// 글 등록
 	public int insertBoard(Board board);

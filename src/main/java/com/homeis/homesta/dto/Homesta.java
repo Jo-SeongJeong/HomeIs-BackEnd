@@ -11,7 +11,7 @@ public class Homesta {
 	private String content;
 	private String createTime;
 	private String userId;
-	private int view;
+	private int totalView;
 	private int type;
 	private int totalLike;
 	
