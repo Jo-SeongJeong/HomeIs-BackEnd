@@ -1,6 +1,5 @@
 package com.homeis.map.model.service;
 
-import com.homeis.homesta.dto.HomestaView;
 import com.homeis.map.dto.*;
 import com.homeis.map.model.mapper.MapMapper;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +44,6 @@ public class MapServiceImpl implements MapService {
     	detailInfo.setAptDealInfoList(aptDealInfoList);
     	detailInfo.setReviewList(reviewList);
     	detailInfo.setIsLike(mapMapper.getLike(like));
-    	
-    	System.out.println("이즈라이크 = " + detailInfo.getIsLike());
-    	System.out.println("ddddd = " + mapMapper.getLike(like));
     	
         return detailInfo;
     }

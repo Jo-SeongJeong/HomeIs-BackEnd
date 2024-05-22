@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.homeis.board.dto.Views;
 import com.homeis.homesta.dto.Homesta;
 import com.homeis.homesta.dto.HomestaImage;
 import com.homeis.homesta.dto.HomestaLike;
