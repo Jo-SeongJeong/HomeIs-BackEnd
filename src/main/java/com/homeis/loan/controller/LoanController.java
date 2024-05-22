@@ -40,9 +40,9 @@ public class LoanController {
 		int age = 2024 - Integer.parseInt(birth[0]);
 		System.out.println(age);
 		
-		loanService.updateView(loan, age);
+		int result = loanService.updateView(loan, age);
 		
-		return ResponseEntity.status(200).build();
+		return ResponseEntity.ok(result);
 		
 	}
 

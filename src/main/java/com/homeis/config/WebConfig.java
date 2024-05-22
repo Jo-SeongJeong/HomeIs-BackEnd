@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer{
 //		.allowedMethods("POST");
 		registry.addMapping("/**")
 		.allowedOrigins("http://localhost:5173", "http://192.168.206.40:5173")
-		.allowedMethods("GET","POST","PUT","DELETE","OPTIONS");
+		.allowedMethods("GET","POST","PUT","DELETE","PATCH","OPTIONS");
 	}
 	
 	@Override
