@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.homeis.board.dto.Views;
 import com.homeis.homesta.dto.Homesta;
 import com.homeis.homesta.dto.HomestaImage;
 import com.homeis.homesta.dto.HomestaLike;
 import com.homeis.homesta.dto.HomestaPaginationResponse;
+import com.homeis.homesta.dto.HomestaView;
 import com.homeis.homesta.model.mapper.HomestaMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -55,9 +57,19 @@ public class HomestaServiceImpl implements HomestaService {
 	@Override
 	@Transactional
 	public Homesta findById(int id, String userId) {
-		int isSucceed = homestaMapper.increaseView(id);
+		HomestaView view = new HomestaView();
+		view.setHomestaId(id);
+		view.setUserId(userId);
 		
-		if(isSucceed == 0) return null;
+		int isView = homestaMapper.getView(view);
+		
+		if(isView == 0) {
+			int isSucceed = homestaMapper.insertView(view);
+			if(isSucceed == 0) return null;
+			
+			isSucceed = homestaMapper.increaseView(id);
+			if(isSucceed == 0) return null;
+		}
 		
 		Homesta homesta = homestaMapper.findById(id);
 		

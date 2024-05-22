@@ -6,14 +6,14 @@
 	<select id="selectAll" parameterType="map" resultType="board">
 		<choose>
         	<when test="category == 'id'">
-            	select id, user_id, title, create_time, view, total_like
+            	select id, user_id, title, create_time, total_view, total_like
             	from free_board
             	order by id DESC
             	limit #{size} offset #{offset};
         	</when>
         	<!-- 추천순 -->
         	<otherwise>
-            	select id, user_id, title, create_time, view, total_like
+            	select id, user_id, title, create_time, total_view, total_like
             	from free_board
             	order by total_like DESC
             	limit #{size} offset #{offset};
@@ -21,18 +21,30 @@
     	</choose>
 	</select>
 	
+	<select id="getView" parameterType="views">
+		select count(board_id)
+		from board_view
+		where board_id = #{boardId}
+		and user_id = #{userId};
+	</select>
+	
+	<insert id="insertView" parameterType="views">
+		insert into board_view(board_id, user_id)
+		values(#{boardId}, #{userId});
+	</insert>
+	
 	<select id="totalRow" parameterType="map" resultType="int">
 		select count(*)
 		from free_board
 	</select>
 	
 	<update id="increaseView" parameterType="int">
-		update free_board set view = view + 1
+		update free_board set total_view = total_view + 1
 		where id = #{id};
 	</update>
 	
 	<select id="getBoard" parameterType="int" resultType="board">
-		select id, user_id, title, content, create_time, view, total_like
+		select id, user_id, title, content, create_time, total_view, total_like
 		from free_board
 		where id = #{id};
 	</select>

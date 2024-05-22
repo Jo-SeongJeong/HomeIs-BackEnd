@@ -1,5 +1,6 @@
 package com.homeis.map.model.service;
 
+import com.homeis.homesta.dto.HomestaView;
 import com.homeis.map.dto.*;
 import com.homeis.map.model.mapper.MapMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,20 @@ public class MapServiceImpl implements MapService {
     @Override
     @Transactional
     public DetailInfo getApartDealInfo(String aptCode, String userId) {
-    	int isSucceed = mapMapper.increaseView(aptCode);
-    	
-    	if(isSucceed == 0) return null;
+    	HouseView view = new HouseView();
+		view.setAptCode(aptCode);
+		view.setUserId(userId);
+		
+		int isView = mapMapper.getView(view);
+		
+		if(isView == 0) {
+			int isSucceed = mapMapper.insertView(view);
+			if(isSucceed == 0) return null;
+			
+			isSucceed =  mapMapper.increaseView(aptCode);
+			if(isSucceed == 0) return null;
+		}
+    
     	List<ApartDealInfo> aptDealInfoList = mapMapper.getApartDealInfo(aptCode);
     	List<Review> reviewList = mapMapper.selectReviewAll(aptCode);
     	

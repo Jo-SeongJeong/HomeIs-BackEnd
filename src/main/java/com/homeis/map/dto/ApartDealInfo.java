@@ -18,7 +18,7 @@ public class ApartDealInfo {
     private String jibun;
     private String lng;
     private String lat;
-    private int view;
+    private int totalView;
     private int totalLike;
 
     //거래기록

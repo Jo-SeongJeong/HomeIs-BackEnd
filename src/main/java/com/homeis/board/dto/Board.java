@@ -11,7 +11,7 @@ public class Board {
 	private String title;
 	private String content;
 	private String createTime;
-	private int view;
+	private int totalView;
 	private int totalLike;
 	
 	private int isLike;
