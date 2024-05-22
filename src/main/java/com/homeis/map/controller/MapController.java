@@ -34,7 +34,7 @@ public class MapController {
 		if(tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
 			tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 		}
-    	
+    	System.out.println("토큰 아이디 = " + tokenId);
         DetailInfo detailInfo = mapService.getApartDealInfo(aptCode, tokenId);
 
         if (detailInfo == null) return ResponseEntity.status(404).body("NOT FOUND");

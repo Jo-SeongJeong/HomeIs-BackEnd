@@ -34,6 +34,9 @@ public class MapServiceImpl implements MapService {
     	detailInfo.setReviewList(reviewList);
     	detailInfo.setIsLike(mapMapper.getLike(like));
     	
+    	System.out.println("이즈라이크 = " + detailInfo.getIsLike());
+    	System.out.println("ddddd = " + mapMapper.getLike(like));
+    	
         return detailInfo;
     }
 
