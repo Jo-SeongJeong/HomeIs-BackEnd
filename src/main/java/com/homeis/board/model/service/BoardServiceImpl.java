@@ -11,6 +11,7 @@ import com.homeis.board.dto.Board;
 import com.homeis.board.dto.BoardPaginationResponse;
 import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
+import com.homeis.board.dto.Views;
 import com.homeis.board.model.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,12 @@ public class BoardServiceImpl implements BoardService{
 		BoardPaginationResponse resp = new BoardPaginationResponse();
 		//게시판 목록 정보 세팅
 		List<Board> boardList = boardMapper.selectAll(param);
+		
+		// 생성 날짜 파싱
+		for(Board board : boardList) {
+			board.setCreateTime(board.getCreateTime().substring(0, 10));
+		}
+		
 		resp.setBoardList(boardList);
 		
 		//페이지네이션 정보 세팅
@@ -47,16 +54,40 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	@Transactional
-	public Board findById(int id) {
-		int isSucceed = boardMapper.increaseView(id);
+	public Board findById(int id, String userId) {
 		
-		if(isSucceed == 0) return null;
+		Views view = new Views();
+		view.setBoardId(id);
+		view.setUserId(userId);
+		
+		int isView = boardMapper.getView(view);
+		
+		if(isView == 0) {
+			int isSucceed  = boardMapper.insertView(view);
+			if(isSucceed == 0) return null;
+			
+			isSucceed = boardMapper.increaseView(id);
+			if(isSucceed == 0) return null;
+		}
 		
 		Board board  = boardMapper.getBoard(id);
 		
 		if(board == null) return null;
 		
+		board.setCreateTime(board.getCreateTime().substring(0, 16));
+		
 		board.setCommentList(boardMapper.getComment(id));
+		
+		Likes like = new Likes();
+		
+		like.setBoardId(id);
+		like.setUserId(userId);
+		
+		board.setIsLike(boardMapper.getLike(like));
+		
+		for(Comment comment : board.getCommentList()) {
+			comment.setCreateTime(comment.getCreateTime().substring(0, 16));
+		}
 		
 		return board;
 	}

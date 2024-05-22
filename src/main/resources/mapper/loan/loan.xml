@@ -30,7 +30,7 @@
 				FROM loan
 				ORDER BY release_date DESC
 			</when>
-			<otherwise>
+			<when test="category == 'views'">
 				SELECT
 				id,
 				name,
@@ -54,6 +54,31 @@
 				bank
 				FROM loan
 				ORDER BY views DESC
+			</when>
+			<otherwise>
+				SELECT
+				id,
+				name,
+				description,
+				interest_rate,
+				link,
+				youth,
+				worker,
+				businessman,
+				married,
+				homeless,
+				real_estate,
+				views,
+				views_age_0_19,
+				views_age_20_29,
+				views_age_30_39,
+				views_age_40_49,
+				views_age_50_59,
+				views_age_60,
+				release_date,
+				bank
+				FROM loan
+				ORDER BY interest_rate DESC
 			</otherwise>
 		</choose>
 	</select>
