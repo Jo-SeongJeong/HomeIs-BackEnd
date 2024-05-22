@@ -24,7 +24,7 @@
             	select id, title, content, create_time, user_id, total_view, type, total_like
             	from homesta
     			<include refid="sortBy"></include>
-            	order by total_like DESC
+            	order by total_like DESC, total_view DESC
             	limit #{size} offset #{offset};
         	</otherwise>
     	</choose>

@@ -15,7 +15,7 @@
         select aptCode, buildYear, roadName, roadNameCode, dong, sigunguCode, eubmyundongCode,
         dongCode, apartmentName, jibun, lng, lat, total_view, total_like
         from houseinfo
-        order by total_like desc
+        order by total_like desc, total_view DESC
         limit 3
     </select>
 
