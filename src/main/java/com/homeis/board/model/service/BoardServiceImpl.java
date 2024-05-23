@@ -11,6 +11,7 @@ import com.homeis.board.dto.Board;
 import com.homeis.board.dto.BoardPaginationResponse;
 import com.homeis.board.dto.Comment;
 import com.homeis.board.dto.Likes;
+import com.homeis.board.dto.Views;
 import com.homeis.board.model.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -54,9 +55,20 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	@Transactional
 	public Board findById(int id, String userId) {
-		int isSucceed = boardMapper.increaseView(id);
 		
-		if(isSucceed == 0) return null;
+		Views view = new Views();
+		view.setBoardId(id);
+		view.setUserId(userId);
+		
+		int isView = boardMapper.getView(view);
+		
+		if(isView == 0) {
+			int isSucceed  = boardMapper.insertView(view);
+			if(isSucceed == 0) return null;
+			
+			isSucceed = boardMapper.increaseView(id);
+			if(isSucceed == 0) return null;
+		}
 		
 		Board board  = boardMapper.getBoard(id);
 		

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.homeis.homesta.dto.Homesta;
 import com.homeis.homesta.dto.HomestaImage;
 import com.homeis.homesta.dto.HomestaLike;
+import com.homeis.homesta.dto.HomestaView;
 
 @Mapper
 public interface HomestaMapper {
@@ -19,6 +20,8 @@ public interface HomestaMapper {
 	 */
 	int totalRow(Map<String, Object> param);
 	public List<HomestaImage> selectImage(int homestaId);
+	public int getView(HomestaView view);
+	public int insertView(HomestaView view);
 	public int increaseView(int id);
 	public Homesta findById(int id);
 	public int getLike(HomestaLike like);

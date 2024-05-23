@@ -5,35 +5,43 @@
 <mapper namespace="com.homeis.map.model.mapper.MapMapper">
     <select id="selectViewRank" resultType="ApartDealInfo">
         select aptCode, buildYear, roadName, roadNameCode, dong, sigunguCode, eubmyundongCode,
-        dongCode, apartmentName, jibun, lng, lat, view, total_like
+        dongCode, apartmentName, jibun, lng, lat, total_view, total_like
         from houseinfo
-        order by view desc
+        order by total_view desc
         limit 3
     </select>
 	
 	<select id="selectLikeRank" resultType="ApartDealInfo">
         select aptCode, buildYear, roadName, roadNameCode, dong, sigunguCode, eubmyundongCode,
-        dongCode, apartmentName, jibun, lng, lat, view, total_like
+        dongCode, apartmentName, jibun, lng, lat, total_view, total_like
         from houseinfo
-        order by total_like desc
+        order by total_like desc, total_view DESC
         limit 3
     </select>
 
     <update id="increaseView" parameterType="string">
-    	update houseinfo set view = view + 1
+    	update houseinfo set total_view = total_view + 1
     	where aptCode = #{aptCode};
     </update>
     
-    <select id="getApartDealInfo" parameterType="string" resultType="apartDealInfo">
+    <select id="getApartDealInfo" parameterType="map" resultType="apartDealInfo">
         select info.aptCode, info.buildYear, info.roadName, info.roadNameCode, info.dong, info.sigunguCode, info.eubmyundongCode,
-        info.dongCode, info.apartmentName, info.jibun, info.lng, info.lat, info.view, info.total_like, deal.dealAmount, deal.dealYear, deal.dealMonth,
+        info.dongCode, info.apartmentName, info.jibun, info.lng, info.lat, info.total_view, info.total_like, deal.dealAmount, deal.dealYear, deal.dealMonth,
         deal.dealDay, deal.area, deal.floor, deal.cancelDealType
         from houseinfo info join housedeal deal
         on info.aptCode = deal.aptCode
         where info.aptCode = #{aptCode}
         order by deal.dealYear, deal.dealMonth, deal.dealDay
-        limit 10
+        limit #{size} offset #{offset};
+        <!-- limit 10 -->
     </select>
+    
+    <select id="totalRow" parameterType="map" resultType="int">
+		select count(*)
+		from houseinfo info join housedeal deal
+        on info.aptCode = deal.aptCode
+        where info.aptCode = #{aptCode}
+	</select>
     
     <select id="selectReviewAll" parameterType="string" resultType="review">
         select id, user_id, aptCode, content, create_time, score
@@ -47,6 +55,18 @@
 		where aptCode = #{aptCode}
 		and user_id = #{userId};
 	</select>
+	
+	<select id="getView" parameterType="houseView">
+		select count(aptCode)
+		from house_view
+		where aptCode = #{aptCode}
+		and user_id = #{userId};
+	</select>
+	
+	<insert id="insertView" parameterType="houseView">
+		insert into house_view(aptCode, user_id)
+		values(#{aptCode}, #{userId});
+	</insert>
 	
 	<insert id="insertLike" parameterType="houseLike">
 		insert into house_like (aptCode, user_id)

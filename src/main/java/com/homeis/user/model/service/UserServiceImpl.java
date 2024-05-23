@@ -87,14 +87,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public int insertInterestArea(DongCode dongCode) {
-		Map<String, String> location = new HashMap<>();
-		location.put("sidoName", dongCode.getSidoName());
-		location.put("gugunName", dongCode.getGugunName());
-		location.put("dongName", dongCode.getDongName());
-		
-		dongCode.setDongCode(userMapper.findByName(location));
-		System.out.println(dongCode);
-		
 		return userMapper.insertDongCode(dongCode);
 	}
 

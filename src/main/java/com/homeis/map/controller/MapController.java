@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/map")
@@ -28,14 +29,18 @@ public class MapController {
     private final JWTUtil jwtUtil;
 
     @GetMapping("/apartDealInfo/{aptCode}")
-    public ResponseEntity<?> getApartDealInfo(@PathVariable("aptCode") String aptCode, @RequestHeader(value = "Authorization", required = false) String tokenHeader) {
+    public ResponseEntity<?> getApartDealInfo(@PathVariable("aptCode") String aptCode, 
+    		@RequestHeader(value = "Authorization", required = false) String tokenHeader,
+    		@RequestParam(value = "size", defaultValue = "10") int size,
+			@RequestParam(value = "page", defaultValue = "1") int page) {
     	String tokenId = null;
+    	System.out.println("page= " +page);
     	
 		if(tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
 			tokenId = jwtUtil.getIdFromToken(tokenHeader.substring(7));
 		}
-    	
-        DetailInfo detailInfo = mapService.getApartDealInfo(aptCode, tokenId);
+		
+        DetailInfo detailInfo = mapService.getApartDealInfo(aptCode, tokenId, size, page);
 
         if (detailInfo == null) return ResponseEntity.status(404).body("NOT FOUND");
 

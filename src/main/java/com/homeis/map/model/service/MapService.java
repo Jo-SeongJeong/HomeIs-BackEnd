@@ -5,7 +5,7 @@ import java.util.List;
 import com.homeis.map.dto.*;
 
 public interface MapService {
-    public DetailInfo getApartDealInfo(String aptCode, String userId);
+    public DetailInfo getApartDealInfo(String aptCode, String userId, int size, int page);
     public int insertLike(HouseLike like);
     public int decreaseLike(String aptCode, String userId);
     public int insertReview(Review review);
