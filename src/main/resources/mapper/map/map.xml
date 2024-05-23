@@ -24,7 +24,7 @@
     	where aptCode = #{aptCode};
     </update>
     
-    <select id="getApartDealInfo" parameterType="string" resultType="apartDealInfo">
+    <select id="getApartDealInfo" parameterType="map" resultType="apartDealInfo">
         select info.aptCode, info.buildYear, info.roadName, info.roadNameCode, info.dong, info.sigunguCode, info.eubmyundongCode,
         info.dongCode, info.apartmentName, info.jibun, info.lng, info.lat, info.total_view, info.total_like, deal.dealAmount, deal.dealYear, deal.dealMonth,
         deal.dealDay, deal.area, deal.floor, deal.cancelDealType
@@ -32,8 +32,16 @@
         on info.aptCode = deal.aptCode
         where info.aptCode = #{aptCode}
         order by deal.dealYear, deal.dealMonth, deal.dealDay
-        limit 10
+        limit #{size} offset #{offset};
+        <!-- limit 10 -->
     </select>
+    
+    <select id="totalRow" parameterType="map" resultType="int">
+		select count(*)
+		from houseinfo info join housedeal deal
+        on info.aptCode = deal.aptCode
+        where info.aptCode = #{aptCode}
+	</select>
     
     <select id="selectReviewAll" parameterType="string" resultType="review">
         select id, user_id, aptCode, content, create_time, score
