@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer{
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/img/**").addResourceLocations("file:///C:/Users/SSAFY/Desktop/save/");
+		registry.addResourceHandler("/img/**").addResourceLocations("file:///C:/ssafy/save/");
 	}
 
 }

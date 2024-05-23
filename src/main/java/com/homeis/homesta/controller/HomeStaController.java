@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeStaController {
 	private final HomestaService homestaService;
-	private final String uploadPath = "C:/Users/SSAFY/Desktop/save/";
+	private final String uploadPath = "C:/ssafy/save/";
 	private final JWTUtil jwtUtil;
 
 	@GetMapping("/list")
