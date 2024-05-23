@@ -43,7 +43,7 @@
         where info.aptCode = #{aptCode}
 	</select>
 	
-	<select id="selectRangeDongCode" parameterType="string" resultType="houseInfo">
+	<select id="selectRangeDongCode" parameterType="map" resultType="houseInfo">
 		select aptCode, dongCode, buildYear, dong, apartmentName, jibun, lng, lat 
 		from houseinfo
         where (lng between #{lng1} and #{lng2}) and (lat between #{lat1} and #{lat2});

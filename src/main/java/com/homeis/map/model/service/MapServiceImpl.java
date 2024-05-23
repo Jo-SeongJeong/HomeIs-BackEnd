@@ -128,7 +128,12 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public List<HouseInfo> selectRangeDongCode(String lng1, String lat1, String lng2, String lat2) {
-		return mapMapper.selectRangeDongCode(lng1, lat1, lng2, lat2);
+		Map<String, String> param = new HashMap<>();
+		param.put("lng1", lng1);
+		param.put("lat1", lat1);
+		param.put("lng2", lng2);
+		param.put("lat2", lat2);
+		return mapMapper.selectRangeDongCode(param);
 	}
 
 }
