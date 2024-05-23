@@ -18,12 +18,15 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public DetailInfo getApartDealInfo(String aptCode, String userId) {
+    public DetailInfo getApartDealInfo(String aptCode, String userId, int size, int page) {
+    	
+    	
     	HouseView view = new HouseView();
 		view.setAptCode(aptCode);
 		view.setUserId(userId);
 		
 		int isView = mapMapper.getView(view);
+		System.out.println("조회한지? " + isView);
 		
 		if(isView == 0) {
 			int isSucceed = mapMapper.insertView(view);
@@ -33,7 +36,13 @@ public class MapServiceImpl implements MapService {
 			if(isSucceed == 0) return null;
 		}
     
-    	List<ApartDealInfo> aptDealInfoList = mapMapper.getApartDealInfo(aptCode);
+		Map<String, Object> param = new HashMap<>();
+		param.put("size", size);
+		param.put("offset", (page-1)*size);
+		param.put("aptCode",aptCode);
+		param.put("userId", userId);
+
+		List<ApartDealInfo> aptDealInfoList = mapMapper.getApartDealInfo(param);
     	List<Review> reviewList = mapMapper.selectReviewAll(aptCode);
     	
     	HouseLike like = new HouseLike();
@@ -44,6 +53,15 @@ public class MapServiceImpl implements MapService {
     	detailInfo.setAptDealInfoList(aptDealInfoList);
     	detailInfo.setReviewList(reviewList);
     	detailInfo.setIsLike(mapMapper.getLike(like));
+    	
+
+    	//페이지네이션 정보 세팅
+		int totalRow = mapMapper.totalRow(param);
+		int totalPages = ((totalRow-1)/size)+1; 
+		detailInfo.setTotalPages(totalPages);
+		detailInfo.setSize(size);
+		detailInfo.setPage(page);
+		/*======================*/
     	
         return detailInfo;
     }

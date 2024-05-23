@@ -15,9 +15,10 @@ import java.util.Map;
 public interface MapMapper {
 
 	public int increaseView(String aptCode);
-    public List<ApartDealInfo> getApartDealInfo(String aptCode);
+    public List<ApartDealInfo> getApartDealInfo(Map<String, Object> param);
     public List<Review> selectReviewAll(String aptCode);
     public int getView(HouseView view);
+    int totalRow(Map<String, Object> param);
     public int insertView(HouseView view);
     public int getLike(HouseLike like);
     public int insertLike(HouseLike like);
