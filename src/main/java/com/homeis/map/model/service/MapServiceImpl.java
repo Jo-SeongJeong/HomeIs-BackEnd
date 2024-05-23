@@ -126,4 +126,9 @@ public class MapServiceImpl implements MapService {
 		return mapMapper.selectHouseInfo(dongCodeStr);
 	}
 
+	@Override
+	public List<HouseInfo> selectRangeDongCode(String lng1, String lat1, String lng2, String lat2) {
+		return mapMapper.selectRangeDongCode(lng1, lat1, lng2, lat2);
+	}
+
 }

@@ -42,6 +42,12 @@
         on info.aptCode = deal.aptCode
         where info.aptCode = #{aptCode}
 	</select>
+	
+	<select id="selectRangeDongCode" parameterType="string" resultType="houseInfo">
+		select aptCode, dongCode, buildYear, dong, apartmentName, jibun, lng, lat 
+		from houseinfo
+        where (lng between #{lng1} and #{lng2}) and (lat between #{lat1} and #{lat2});
+	</select>
     
     <select id="selectReviewAll" parameterType="string" resultType="review">
         select id, user_id, aptCode, content, create_time, score

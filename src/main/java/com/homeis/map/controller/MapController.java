@@ -110,6 +110,16 @@ public class MapController {
 
         return ResponseEntity.ok(result);
     }
+    
+    @GetMapping("/dongCodes/{lng1}/{lat1}/{lng2}/{lat2}")
+    public ResponseEntity<?> getRangeDongCodes(
+    		@PathVariable("lng1") String lng1,
+    		@PathVariable("lat1") String lat1,
+    		@PathVariable("lng2") String lng2,
+    		@PathVariable("lat2") String lat2) {
+        List<HouseInfo> dongCodeList = mapService.selectRangeDongCode(lng1, lat1, lng2, lat2);
+        return ResponseEntity.ok().body(dongCodeList);
+    }
 
     @GetMapping("/dongCodes/{inputDongName}")
     public ResponseEntity<?> getDongCodes(@PathVariable("inputDongName") String dongName) {
