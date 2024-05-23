@@ -31,7 +31,7 @@
         from houseinfo info join housedeal deal
         on info.aptCode = deal.aptCode
         where info.aptCode = #{aptCode}
-        order by deal.dealYear, deal.dealMonth, deal.dealDay
+        order by deal.dealYear desc, deal.dealMonth desc, deal.dealDay desc
         limit #{size} offset #{offset};
         <!-- limit 10 -->
     </select>
