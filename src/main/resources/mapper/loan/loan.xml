@@ -78,7 +78,7 @@
 				release_date,
 				bank
 				FROM loan
-				ORDER BY interest_rate DESC
+				ORDER BY interest_rate
 			</otherwise>
 		</choose>
 	</select>
